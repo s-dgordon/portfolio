@@ -1,9 +1,14 @@
 ---
 title: "Shadira Gordon, DVM, MPVM"
-subtitle: "Veterinary Epidemiologist | Data Scientist | One Health Researcher"
+subtitle:         "Veterinary Epidemiologist | One Health Researcher"
 image: profile.jpg
+format:
+  html:
+    css: home-style.css
 about:
-  template: trestles
+  template: jolla
+  image-shape: round
+  image-width: 17em
   links:
     - icon: github
       text: GitHub
@@ -16,16 +21,22 @@ about:
       href: mailto:dsgordon@ucdavis.edu
 ---
 
-## About Me
+# **About Me**
 
-I am a veterinary epidemiologist working at the Center for Animal Disease Modeling and Surveillance (CADMS) at UC Davis. My work bridges veterinary medicine, data science, and public health through a One Health lens.
+::: content-box
+I am a graduate student researcher working at the Center for Animal Disease Modeling and Surveillance (CADMS) at UC Davis. My work bridges veterinary medicine, data science, and public health through a One Health lens.
 
-My research focuses on antimicrobial resistance, small ruminant disease surveillance, and infectious disease modeling. I build interactive data tools, including R Shiny dashboards for wildlife disease surveillance and livestock health monitoring, that turn complex epidemiological data into actionable insights for researchers, producers, and government agencies.
+My research focuses on disease surveillance, infectious disease modeling, and antimicrobial resistance. I build interactive data tools, including R Shiny dashboards for disease surveillance and livestock health monitoring, that turn complex epidemiological data into actionable insights for researchers, producers, government agencies, and other organizations.
 
-I'm interested in developing strategies for emerging zoonotic threats preparedness, improving global disease surveillance systems, and preventing and controlling infectious diseases through a One Health approach.
+I'm deeply interested in developing strategies for emerging zoonotic threats preparedness, improving global disease surveillance systems, and preventing and controlling infectious diseases through a One Health approach.
+:::
 
-## Highlights
+# **Highlights**
 
--   **Data Tools**: R Shiny dashboards deployed for California Department of Fish and Wildlife and dairy sheep producers
--   **Research**: Longitudinal studies, AMR surveillance, outbreak investigation
--   **Teaching**: Disease ecology, epidemiology course content development
+::: content-box
+**Toolkit:** R Studio, Python, ArcGIS, QGIS, SQL, Apache Spark, etc.
+
+**Research:** Observational studies, AMR surveillance, outbreak investigation
+
+**Teaching:** Disease ecology, infectious disease modeling, epidemiology course content development, etc.
+:::
