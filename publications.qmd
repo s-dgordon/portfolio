@@ -2,4 +2,58 @@
 title: "Publications"
 ---
 
-Coming soon.
+## Peer-Reviewed Publications
+
+---
+
+### Identifying Host-Characteristics and Management Risk Factors in a California Equine Herpesvirus Myeloencephalopathy (EHM) Outbreak
+
+**Gordon, S.**, Pusterla, N., Finno, C.J., Young, A., & Martínez-López, B. (2026). *Veterinary Sciences*, 13(2), 121.
+
+[[DOI](https://doi.org/10.3390/vetsci13020121)]{.badge .bg-primary}  [[PubMed](https://pubmed.ncbi.nlm.nih.gov/41745915/)]{.badge .bg-success}  [[PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC12944867/)]{.badge .bg-info}
+
+::: {.callout-note collapse="true" title="Abstract"}
+
+::: {.panel-tabset}
+
+## EN
+This study analyzed data from 63 horses involved in the February 2022 EHM outbreak at the Desert International Horse Park in Thermal, California, to identify host and management risk factors for EHV-1 infection and EHM development. Using multivariable logistic regression and random forest modeling, the study found that older age, participation in jumping (versus hunting), and sharing a barn were the strongest predictors of case status. These findings point to specific demographic and management-related factors that could guide targeted biosecurity and prevention strategies at equine events.
+
+## ES
+Este estudio analizó datos de 63 caballos involucrados en el brote de mieloencefalopatía por herpesvirus equino (EHM) ocurrido en febrero de 2022 en el Desert International Horse Park en Thermal, California, con el objetivo de identificar factores de riesgo  asociados con la infección por EHV-1 y el desarrollo de EHM. Mediante regresión logística multivariable y modelos de bosque aleatorio, se encontró que tener una mayor edad, participar en salto (en comparación con cacería) y compartir establo fueron los predictores más fuertes del estatus de caso. Estos hallazgos señalan factores demográficos y de manejo específicos que podrían orientar estrategias de bioseguridad y prevención dirigidas en eventos equinos.
+
+## FR
+Cette étude a analysé les données de 63 chevaux impliqués dans l'épidémie de myéloencéphalopathie à herpèsvirus équin (EHM) survenue en février 2022 au Desert International Horse Park à Thermal, en Californie, afin d'identifier les facteurs de risque liés à l'hôte et à la gestion associés à l'infection par l'EHV-1 et au développement de l'EHM. À l'aide de la régression logistique multivariable et de la modélisation par forêt aléatoire, l'étude a révélé que l'âge avancé, la participation au saut d'obstacles (par rapport à la chasse) et le partage d'une écurie étaient les prédicteurs les plus forts du statut de cas. Ces résultats mettent en évidence des facteurs démographiques et de gestion spécifiques qui pourraient orienter des stratégies ciblées de biosécurité et de prévention lors d'événements équins.
+
+:::
+:::
+
+**Keywords:** biosecurity, epidemiology, equine herpesvirus myeloencephalopathy (EHM), equine herpesvirus-1 (EHV-1)
+
+---
+
+### Is Soybean Therapy Better Than ClinOleic for Reducing Recovery Time in Cats with Permethrin Toxicosis?
+
+**Gordon, S.** (2021). *Veterinary Evidence*, 6(4).
+
+[[DOI](https://doi.org/10.18849/ve.v6i4.469)]{.badge .bg-primary}  [[Full Text](https://veterinaryevidence.org/index.php/ve/article/view/469)]{.badge .bg-success}
+
+::: {.callout-note collapse="true" title="Abstract"}
+
+::: {.panel-tabset}
+
+## EN
+This knowledge summary evaluated whether soybean oil-based intravenous lipid emulsion (IVLE) therapy is more effective than olive oil-based ClinOleic IVLE therapy for reducing recovery time in cats with permethrin toxicosis. Five case reports and one randomised clinical trial were reviewed. The findings indicate that soybean oil-based IVLE resulted in an average recovery time of 8.5 hours compared to 39 hours for ClinOleic, suggesting soybean-based formulations may be the better option. Standard treatments including dermal decontamination, supportive care, muscle relaxers, and anticonvulsants should be administered based on clinical signs before any intralipid therapy.
+
+## ES
+Este resumen de conocimiento evaluó si la terapia con emulsión lipídica intravenosa (IVLE) a base de aceite de soya es más eficaz que la terapia IVLE a base de aceite de oliva (ClinOleic) para reducir el tiempo de recuperación en gatos con toxicosis por permetrinas. Se revisaron cinco reportes de caso y un ensayo clínico aleatorizado. Los hallazgos indican que la IVLE a base de aceite de soya resultó en un tiempo promedio de recuperación de 8.5 horas en comparación con 39 horas para ClinOleic, lo que sugiere que las formulaciones a base de soya pueden ser la mejor opción. Los tratamientos estándar, incluyendo descontaminación dérmica, cuidados de soporte, relajantes musculares y anticonvulsivantes, deben administrarse según los signos clínicos antes de cualquier terapia intralipídica.
+
+## FR
+Ce résumé de connaissances a évalué si la thérapie par émulsion lipidique intraveineuse (IVLE) à base d'huile de soja est plus efficace que la thérapie IVLE à base d'huile d'olive (ClinOleic) pour réduire le temps de récupération chez les chats atteints de toxicose à la perméthrine. Cinq rapports de cas et un essai clinique randomisé ont été examinés. Les résultats indiquent que l'IVLE à base d'huile de soja a entraîné un temps de récupération moyen de 8,5 heures contre 39 heures pour le ClinOleic, ce qui suggère que les formulations à base de soja pourraient être la meilleure option. Les traitements standards, y compris la décontamination cutanée, les soins de soutien, les relaxants musculaires et les anticonvulsivants, doivent être administrés en fonction des signes cliniques avant toute thérapie intralipidique.
+
+:::
+:::
+
+**Keywords:** cats, permethrin, pyrethroids, intralipid, intravenous lipid emulsion therapy, toxicosis
+
+---
