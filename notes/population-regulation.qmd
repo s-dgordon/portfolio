@@ -1,0 +1,61 @@
+---
+title: "Population Regulation: Stochasticity and Time in Models"
+description: "How populations grow, wobble, overshoot, and crash...and why the type of math you choose changes everything."
+date: 2025-12-09
+categories: [Disease Ecology, Population Dynamics, Modeling]
+image: ../images/population-reg.jpg
+---
+
+## Deterministic vs. Stochastic: Two Different Worlds
+
+A **deterministic** population does exactly what the parameters tell it to do. You give it a carrying capacity and a growth rate, and it follows that trajectory perfectly. No surprises.
+
+A **stochastic** population has chance built in. The graph wobbles. It's messier, but it's also more realistic, because real populations don't follow smooth curves.
+
+Here's the critical point that trips people up: **these are two independent axes.**
+
+|  | Deterministic | Stochastic |
+|---|---|---|
+| **Continuous time** | ✓ possible | ✓ possible |
+| **Discrete time** | ✓ possible | ✓ possible |
+
+Discrete does not mean stochastic. Continuous does not mean deterministic. You can have any combination of the four.
+
+## Continuous Time Models
+
+Continuous time uses **differential equations**. Time flows continuously: every microsecond, every infinitesimally small unit. Changes happen smoothly and constantly, and you get smooth curves in your population graphs.
+
+Think of it like calculus: you're slicing time into infinitesimally small chunks and calculating what happens at each one.
+
+## Discrete Time Models
+
+Discrete time uses **difference equations** not differential equations, and that distinction matters. Here, time is measured at specific intervals: weekly, monthly, seasonally. Changes occur in steps or jumps, and the graphs look jagged.
+
+
+## Why Populations Overshoot in Discrete Time
+
+In continuous time, a population approaches carrying capacity smoothly. It goes slightly over, adjusts gently, and settles down with nice, smooth oscillations.
+
+In discrete time, the population **overshoots dramatically**. The organisms don't "know" they're near carrying capacity. They produce many offspring all at once (because breeding is seasonal, pulsed), and suddenly the population is way over carrying capacity.
+
+Then the consequences compound: individuals get skinnier, food runs out, fighting increases, more predators show up. The result is a dramatic crash, not a smooth decline. And the recovery is also delayed, creating large oscillations.
+
+**The key principle: time lags cause overreaction.**
+
+## Converting Between the Two
+
+Here's something cool: you can make discrete time approximate continuous time by counting more frequently. Instead of once a year, count once a month. Instead of once a month, once a day. The more often you count, the more discrete time looks like continuous time.
+
+This is essentially what calculus does, taking the limit as your time intervals become infinitesimally small.
+
+## Practical Note
+
+Excel doesn't handle differential equations well, it doesn't do calculus. So in lab settings, we typically use discrete time models. But remember: discrete and continuous time produce different population dynamics. Your choice of model must match the biology of the organism you're studying.
+
+---
+
+*These notes are based on lectures from the VME 158 Disease Ecology course at UC Davis led by Dr. Janet Foley and Dr. Sophia Papageorgiou. All factual claims are supported by peer-reviewed literature and official sources (CDC, WHO, OIE).*
+
+---
+
+*Image: Designed by Freepik [www.freepik.com](https://www.freepik.com){target="_blank"}*

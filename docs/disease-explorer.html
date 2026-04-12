@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Dynamics Explorer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Avenir', sans-serif;
+            background: linear-gradient(135deg, #0d9488 0%, #22c55e 25%, #16a34a 50%, #059669 75%, #10b981 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Avenir', sans-serif;
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: linear-gradient(135deg, #d1fae5, #dcfce7);
+            color: #16a34a;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            font-family: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Avenir', sans-serif;
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #16a34a, #059669);
+            color: white;
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+        }
+
+        .model-description {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Transmission Mode Toggle */
+        .transmission-mode-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .transmission-mode-title {
+            font-weight: 700;
+            color: #16a34a;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .transmission-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .transmission-toggle button {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            color: #16a34a;
+            transition: all 0.2s ease;
+            font-family: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Avenir', sans-serif;
+        }
+
+        .transmission-toggle button.active {
+            background: linear-gradient(135deg, #16a34a, #059669);
+            color: white;
+            border-color: #16a34a;
+        }
+
+        .transmission-info {
+            font-size: 0.9em;
+            color: #666;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.05), rgba(5, 150, 105, 0.05));
+            border-radius: 8px;
+            border-left: 4px solid #16a34a;
+        }
+
+        .transmission-info .formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.15em;
+            color: #333;
+            font-weight: 600;
+            margin: 6px 0;
+        }
+
+        /* Compartment Diagram */
+        .diagram-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .diagram-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #16a34a;
+            font-size: 1.1em;
+        }
+
+        .diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .compartment {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.3em;
+            position: relative;
+        }
+
+        .compartment:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .compartment.S { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .compartment.E { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .compartment.I { background: linear-gradient(135deg, #ff6b6b, #ee5a6f); }
+        .compartment.R { background: linear-gradient(135deg, #4ade80, #22c55e); }
+        .compartment.V { background: linear-gradient(135deg, #a78bfa, #8b5cf6); }
+
+        .arrow {
+            font-size: 1.5em;
+            color: #16a34a;
+            animation: arrowBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #16a34a;
+            margin-bottom: 15px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin-bottom: 15px;
+        }
+
+        /* Parameters */
+        .parameters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .param-group {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.05), rgba(5, 150, 105, 0.05));
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid #16a34a;
+        }
+
+        .param-group.highlight {
+            border-left: 4px solid #f59e0b;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.03));
+        }
+
+        .param-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .tooltip-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #16a34a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            cursor: help;
+            position: relative;
+        }
+
+        .tooltip-icon:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            white-space: nowrap;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            font-weight: 400;
+            max-width: 300px;
+            white-space: normal;
+        }
+
+        .slider-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #16a34a, #059669);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+        }
+
+        .param-value {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 6px 12px;
+            min-width: 90px;
+            text-align: center;
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95em;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #16a34a;
+        }
+
+        /* Beta display */
+        .beta-display {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .beta-display .formula-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .beta-display .beta-value {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #b45309;
+        }
+
+        .beta-display .beta-components {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        /* R0 and Threshold Display */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .r0-display {
+            background: linear-gradient(135deg, #16a34a, #059669);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .r0-display .r0-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .r0-display .r0-formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .r0-value {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .r0-status {
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .herd-immunity-threshold {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.9em;
+        }
+
+        .threshold-display {
+            background: linear-gradient(135deg, #b45309, #d97706);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .threshold-display .threshold-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .threshold-display .threshold-formula {
+            font-family: 'Times New Roman', serif;
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .threshold-value {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .threshold-status {
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        /* Fun Facts */
+        .fun-facts {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.08), rgba(5, 150, 105, 0.08));
+            border-left: 4px solid #16a34a;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            font-style: italic;
+            color: #555;
+        }
+
+        .fun-facts::before {
+            content: "Note: ";
+            font-weight: 700;
+            color: #16a34a;
+        }
+
+        /* Presets */
+        .presets-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .presets-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #16a34a;
+            margin-bottom: 15px;
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .preset-btn {
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            color: #16a34a;
+            font-family: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Avenir', sans-serif;
+        }
+
+        .preset-btn:hover {
+            border-color: #16a34a;
+            background: #dcfce7;
+            transform: translateY(-2px);
+        }
+
+        /* Simulation Controls */
+        .simulation-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.05), rgba(5, 150, 105, 0.05));
+            border-radius: 12px;
+            margin-top: 15px;
+        }
+
+        .sim-status {
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        .sim-status.running {
+            color: #f59e0b;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .btn-primary {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-family: 'Century Gothic', 'CenturyGothic', 'AppleGothic', 'Avenir', sans-serif;
+            background: linear-gradient(135deg, #16a34a, #059669);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
+        }
+
+        @keyframes dotAppear {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Floating particles */
+        .particles-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: floatParticle linear infinite;
+        }
+
+        .particle.virus {
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #cc3333);
+        }
+
+        .particle.cell {
+            background: radial-gradient(circle at 40% 40%, #4ade80, #16a34a);
+        }
+
+        .particle.antibody {
+            background: radial-gradient(circle at 30% 30%, #60a5fa, #2563eb);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-10vh) rotate(360deg); }
+        }
+
+        footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .chart-wrapper { height: 300px; }
+            .parameters-grid { grid-template-columns: 1fr; }
+            .metrics-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles-container" id="particlesContainer"></div>
+    <div class="container">
+        <header>
+            <h1>Disease Dynamics Explorer</h1>
+            <p class="subtitle">VME 158 Disease Ecology — SIR/SIRS Simulator</p>
+        </header>
+
+        <!-- Model Selection Tabs -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchModel('SIR', this)">SIR</button>
+                <button class="tab-btn" onclick="switchModel('SIRS', this)">SIRS</button>
+                <button class="tab-btn" onclick="switchModel('SEIR', this)">SEIR</button>
+                <button class="tab-btn" onclick="switchModel('SEIRS', this)">SEIRS</button>
+                <button class="tab-btn" onclick="switchModel('SIR_VAC', this)">SIR + Vax</button>
+                <button class="tab-btn" onclick="switchModel('SEIR_VAC', this)">SEIR + Vax</button>
+            </div>
+        </div>
+
+        <div class="model-description" id="modelDescription">
+            The SIR model divides the population into Susceptible (S), Infected (I), and Recovered (R). Individuals move from S to I through transmission (βSI) and from I to R through recovery (γI).
+        </div>
+
+        <!-- Compartment Diagram -->
+        <div class="diagram-container">
+            <div class="diagram-title">Model Structure</div>
+            <div class="diagram" id="compartmentDiagram"></div>
+        </div>
+
+        <!-- Transmission Mode Toggle -->
+        <div class="transmission-mode-container">
+            <div class="transmission-mode-title">Transmission Mode</div>
+            <div class="transmission-toggle">
+                <button id="densityBtn" class="active" onclick="setTransmissionMode('density')">Density-Dependent (βSI)</button>
+                <button id="frequencyBtn" onclick="setTransmissionMode('frequency')">Frequency-Dependent (βSI/N)</button>
+            </div>
+            <div class="transmission-info" id="transmissionInfo">
+                <strong>Density-dependent transmission:</strong> The force of infection λ = βI depends on the <em>absolute number</em> of infected individuals. Transmission rates increase with population density. These are the formulas we will be using in the lab exercises!
+                <div class="formula" id="transmissionFormula">dI/dt = βSI − γI &nbsp;&nbsp;|&nbsp;&nbsp; R₀ = Nβ/γ &nbsp;&nbsp;|&nbsp;&nbsp; S* = γ/β</div>
+            </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="presets-section">
+            <div class="presets-title">Disease Presets</div>
+            <div class="presets-grid">
+                <button class="preset-btn" onclick="applyPreset('measles_lab')">Measles</button>
+                <button class="preset-btn" onclick="applyPreset('vital_lab')">Vital Dynamics</button>
+                <button class="preset-btn" onclick="applyPreset('covid')">COVID-19-like</button>
+                <button class="preset-btn" onclick="applyPreset('measles_freq')">Gonorrhea(Freq-Dep)</button>
+                <button class="preset-btn" onclick="applyPreset('reset')">Reset Defaults</button>
+            </div>
+        </div>
+
+        <!-- β Decomposition: Contact Rate × Transfer Rate -->
+        <div class="card">
+            <div class="card-title">Transmission Rate Decomposition: β = Contact Rate × Transfer Rate</div>
+            <div class="parameters-grid" style="margin-bottom:0;">
+                <div class="param-group highlight">
+                    <label class="param-label">
+                        Contact Rate (c)
+                        <div class="tooltip-icon" data-tooltip="Rate at which a susceptible individual encounters an infected individual per unit time. Quarantine reduces this.">ℹ️</div>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="contactRate" min="0.000001" max="0.001" step="0.000001" value="0.00004" oninput="updateBeta()">
+                        <span class="param-value" id="contactRate-display">0.00004</span>
+                    </div>
+                    <input type="number" id="contactRate-input" value="0.00004" min="0" max="1" step="0.000001" onchange="syncContact(); updateBeta();">
+                </div>
+                <div class="param-group highlight">
+                    <label class="param-label">
+                        Transfer Rate (p)
+                        <div class="tooltip-icon" data-tooltip="Probability that disease is transmitted given contact between S and I. Hygiene measures reduce this.">ℹ️</div>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="transferRate" min="0" max="1" step="0.01" value="0.25" oninput="updateBeta()">
+                        <span class="param-value" id="transferRate-display">0.25</span>
+                    </div>
+                    <input type="number" id="transferRate-input" value="0.25" min="0" max="1" step="0.01" onchange="syncTransfer(); updateBeta();">
+                </div>
+            </div>
+
+            <div class="beta-display">
+                <div class="formula-label">Calculated Transmission Rate</div>
+                <div class="beta-value" id="betaValue">β = 0.00001</div>
+                <div class="beta-components" id="betaComponents">Contact Rate (0.00004) × Transfer Rate (0.25) = 0.00001</div>
+            </div>
+        </div>
+
+        <!-- R0 and Epidemic Threshold -->
+        <div class="metrics-row">
+            <div class="r0-display" id="r0Display">
+                <div class="r0-label">Basic Reproduction Number (R₀)</div>
+                <div class="r0-formula" id="r0Formula">R₀ = Nβ/γ</div>
+                <div class="r0-value" id="r0Value">3.00</div>
+                <div class="r0-status" id="r0Status">R₀ > 1: Epidemic can spread</div>
+                <div class="herd-immunity-threshold" id="herdImmunityThreshold">
+                    Herd immunity threshold: 1 − 1/R₀ = 66.7%
+                </div>
+            </div>
+
+            <div class="threshold-display" id="thresholdDisplay">
+                <div class="threshold-label">Epidemic Threshold (S*)</div>
+                <div class="threshold-formula" id="thresholdFormula">S* = γ/β</div>
+                <div class="threshold-value" id="thresholdValue">7,143</div>
+                <div class="threshold-status" id="thresholdStatus">If S > S*, disease spreads. If S < S*, disease declines.</div>
+            </div>
+        </div>
+
+        <!-- Fun Facts -->
+        <div class="fun-facts" id="funFacts">
+            With R₀ = 3, each infected individual produces 3 new infections on average in a fully susceptible population. Approximately 67% of the population must be immune to achieve herd immunity.
+        </div>
+
+        <!-- Other Parameters -->
+        <div class="card">
+            <div class="card-title">Recovery and Additional Parameters</div>
+            <div class="parameters-grid" id="parametersGrid">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+
+        <!-- Initial Conditions -->
+        <div class="card">
+            <div class="card-title">Initial Conditions & Simulation</div>
+            <div class="parameters-grid">
+                <div class="param-group">
+                    <label class="param-label">
+                        Total Population (N)
+                        <div class="tooltip-icon" data-tooltip="Total population size. Used in R₀ = Nβ/γ for density-dependent transmission.">ℹ️</div>
+                    </label>
+                    <input type="number" id="N" value="50000" min="10" max="1000000" step="100" onchange="updateMetrics(); runSimulation();">
+                </div>
+                <div class="param-group">
+                    <label class="param-label">
+                        Initial Infected (I₀)
+                        <div class="tooltip-icon" data-tooltip="Number of infected individuals at the start of the simulation.">ℹ️</div>
+                    </label>
+                    <input type="number" id="I0" value="1800" min="1" max="100000" step="1">
+                </div>
+                <div class="param-group">
+                    <label class="param-label">
+                        Initial Recovered (R₀ initial)
+                        <div class="tooltip-icon" data-tooltip="Number of recovered/immune individuals at the start.">ℹ️</div>
+                    </label>
+                    <input type="number" id="R0_init" value="2500" min="0" max="100000" step="1">
+                </div>
+                <div class="param-group">
+                    <label class="param-label">
+                        Simulation Time (days)
+                        <div class="tooltip-icon" data-tooltip="How many days to simulate.">ℹ️</div>
+                    </label>
+                    <input type="number" id="tmax" value="200" min="10" max="5000" step="10">
+                </div>
+            </div>
+            <div class="simulation-controls">
+                <span class="sim-status" id="simStatus">Ready</span>
+                <button class="btn-primary" onclick="runSimulation()">Run Simulation</button>
+            </div>
+        </div>
+
+        <!-- Population Snapshot -->
+        <div class="card">
+            <div class="card-title">Population Snapshot <span style="font-size:0.7em;font-weight:400;color:#888;">(at peak infection)</span></div>
+            <div id="populationGrid" style="display:flex;flex-wrap:wrap;gap:3px;justify-content:center;padding:10px;min-height:80px;"></div>
+            <div style="display:flex;gap:20px;justify-content:center;margin-top:12px;font-size:0.85em;color:#555;">
+                <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#4facfe;margin-right:4px;vertical-align:middle;"></span>Susceptible</span>
+                <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#ff6b6b;margin-right:4px;vertical-align:middle;"></span>Infected</span>
+                <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#4ade80;margin-right:4px;vertical-align:middle;"></span>Recovered</span>
+            </div>
+        </div>
+
+        <!-- Epidemic Progress Bar -->
+        <div class="card">
+            <div class="card-title">Epidemic Progression</div>
+            <div style="position:relative;height:30px;background:#e5e7eb;border-radius:15px;overflow:hidden;margin-bottom:8px;">
+                <div id="progressS" style="position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#4facfe,#00f2fe);transition:width 0.5s ease;"></div>
+                <div id="progressI" style="position:absolute;top:0;height:100%;background:linear-gradient(90deg,#ff6b6b,#ee5a6f);transition:left 0.5s ease, width 0.5s ease;"></div>
+                <div id="progressR" style="position:absolute;top:0;height:100%;background:linear-gradient(90deg,#4ade80,#22c55e);transition:left 0.5s ease, width 0.5s ease;"></div>
+            </div>
+            <div id="progressLabels" style="display:flex;justify-content:space-between;font-size:0.8em;color:#555;"></div>
+            <div style="margin-top:10px;">
+                <input type="range" id="timeSlider" min="0" max="100" value="0" style="width:100%;" oninput="scrubTimeline(this.value)">
+                <div style="display:flex;justify-content:space-between;font-size:0.75em;color:#888;">
+                    <span>Day 0</span>
+                    <span id="timeSliderLabel">Drag to explore the timeline</span>
+                    <span id="timeSliderMax">Day 200</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Series Chart -->
+        <div class="card">
+            <div class="card-title">Time Series</div>
+            <div class="chart-wrapper">
+                <canvas id="timeSeriesChart"></canvas>
+            </div>
+        </div>
+
+        <footer>
+            <p>VME 158 Disease Ecology SQ 2026 | S. Gordon | Made for educational purposes</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================================
+        // GLOBAL STATE
+        // ============================================================
+        let currentModel = 'SIR';
+        let transmissionMode = 'density'; // 'density' or 'frequency'
+        let lastSimulationData = null;
+        let timeSeriesChart = null;
+
+        const models = {
+            SIR: {
+                title: 'SIR Model',
+                description: 'The SIR model divides the population into Susceptible (S), Infected (I), and Recovered (R). Immunity is permanent (e.g., measles). The flow is one-way: S → I → R.',
+                compartments: ['S', 'I', 'R'],
+                params: ['gamma'],
+            },
+            SIRS: {
+                title: 'SIRS Model',
+                description: 'SIRS extends SIR by allowing immunity to wane over time at rate ω. Recovered individuals lose immunity and return to S, creating a cycle: S → I → R → S (e.g., influenza, COVID).',
+                compartments: ['S', 'I', 'R'],
+                params: ['gamma', 'omega'],
+            },
+            SEIR: {
+                title: 'SEIR Model',
+                description: 'SEIR adds an Exposed (E) compartment for the latent period: individuals infected but not yet infectious. They become infectious at rate σ (e.g., herpesviruses).',
+                compartments: ['S', 'E', 'I', 'R'],
+                params: ['sigma', 'gamma'],
+            },
+            SEIRS: {
+                title: 'SEIRS Model',
+                description: 'SEIRS combines a latent period (E) with waning immunity (ω). Recovered individuals lose immunity and become susceptible again, allowing recurrent epidemic waves.',
+                compartments: ['S', 'E', 'I', 'R'],
+                params: ['sigma', 'gamma', 'omega'],
+            },
+            SIR_VAC: {
+                title: 'SIR + Vaccination',
+                description: 'SIR model where susceptibles are vaccinated at rate ν, moving directly to V (immune). Reduces the susceptible pool and can achieve herd immunity.',
+                compartments: ['S', 'I', 'R', 'V'],
+                params: ['gamma', 'nu'],
+            },
+            SEIR_VAC: {
+                title: 'SEIR + Vaccination',
+                description: 'SEIR with vaccination. Susceptibles vaccinated at rate ν move to V. The E compartment captures the latent period before individuals become infectious.',
+                compartments: ['S', 'E', 'I', 'R', 'V'],
+                params: ['sigma', 'gamma', 'nu'],
+            }
+        };
+
+        const paramMeta = {
+            gamma: { label: 'γ (Recovery Rate)', min: 0.001, max: 1, step: 0.001, default: 0.07143, tooltip: '1/γ = average infectious period in days. For measles: γ = 1/14 ≈ 0.0714.' },
+            sigma: { label: 'σ (Incubation Rate)', min: 0.01, max: 2, step: 0.01, default: 0.2, tooltip: '1/σ = average latent period. Higher σ = shorter time from exposure to infectiousness.' },
+            omega: { label: 'ω (Waning Immunity Rate)', min: 0, max: 0.5, step: 0.001, default: 0.01, tooltip: 'Rate at which recovered individuals lose immunity and return to S. Higher ω = shorter immunity duration.' },
+            nu: { label: 'ν (Vaccination Rate)', min: 0, max: 0.1, step: 0.001, default: 0.01, tooltip: 'Fraction of susceptible population vaccinated per day.' },
+            mu: { label: 'μ (Birth/Death Rate)', min: 0, max: 0.1, step: 0.001, default: 0, tooltip: 'Per capita birth and death rate. Births enter S. Deaths occur from all compartments.' }
+        };
+
+        // ============================================================
+        // PRESETS (matching lab values)
+        // ============================================================
+        const presets = {
+            measles_lab: {
+                mode: 'density',
+                contactRate: 0.00004, transferRate: 0.25,
+                gamma: 0.07143, sigma: 0.2, omega: 0, nu: 0, mu: 0,
+                N: 50000, I0: 1800, R0_init: 2500, tmax: 200
+            },
+            vital_lab: {
+                mode: 'density',
+                contactRate: 0.0003, transferRate: 0.2,
+                gamma: 0.01, sigma: 0.2, omega: 0, nu: 0, mu: 0,
+                N: 500, I0: 150, R0_init: 250, tmax: 2000
+            },
+            covid: {
+                mode: 'frequency',
+                contactRate: 0.5, transferRate: 1,
+                gamma: 0.1, sigma: 0.2, omega: 0.005, nu: 0, mu: 0,
+                N: 10000, I0: 10, R0_init: 0, tmax: 365
+            },
+            measles_freq: {
+                mode: 'frequency',
+                contactRate: 1.5, transferRate: 1,
+                gamma: 0.07143, sigma: 0.2, omega: 0, nu: 0, mu: 0,
+                N: 50000, I0: 10, R0_init: 0, tmax: 200
+            }
+        };
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        function init() {
+            renderParamControls();
+            updateCompartmentDiagram();
+            updateBeta();
+            runSimulation();
+        }
+
+        // ============================================================
+        // TRANSMISSION MODE
+        // ============================================================
+        function setTransmissionMode(mode) {
+            transmissionMode = mode;
+            document.getElementById('densityBtn').classList.toggle('active', mode === 'density');
+            document.getElementById('frequencyBtn').classList.toggle('active', mode === 'frequency');
+
+            const info = document.getElementById('transmissionInfo');
+            const formula = document.getElementById('transmissionFormula');
+
+            if (mode === 'density') {
+                info.innerHTML = '<strong>Density-dependent transmission:</strong> The force of infection λ = βI depends on the <em>absolute number</em> of infected individuals. Transmission rates increase with population density. Used in the lab exercises.' +
+                    '<div class="formula" id="transmissionFormula">dI/dt = βSI − γI &nbsp;&nbsp;|&nbsp;&nbsp; R₀ = Nβ/γ &nbsp;&nbsp;|&nbsp;&nbsp; S* = γ/β</div>';
+                // Adjust sliders for density-dependent (small β)
+                const cSlider = document.getElementById('contactRate');
+                cSlider.min = 0.000001; cSlider.max = 0.001; cSlider.step = 0.000001;
+            } else {
+                info.innerHTML = '<strong>Frequency-dependent transmission:</strong> The force of infection λ = β(I/N) depends on the <em>proportion</em> of infected. R₀ does not change with population size. Common for STDs and diseases with fixed contact rates.' +
+                    '<div class="formula" id="transmissionFormula">dI/dt = (β/N)SI − γI &nbsp;&nbsp;|&nbsp;&nbsp; R₀ = β/γ &nbsp;&nbsp;|&nbsp;&nbsp; S* = Nγ/β</div>';
+                // Adjust sliders for frequency-dependent (larger β)
+                const cSlider = document.getElementById('contactRate');
+                cSlider.min = 0.01; cSlider.max = 3; cSlider.step = 0.01;
+            }
+
+            updateBeta();
+            runSimulation();
+        }
+
+        // ============================================================
+        // BETA DECOMPOSITION
+        // ============================================================
+        function updateBeta() {
+            const c = parseFloat(document.getElementById('contactRate').value);
+            const p = parseFloat(document.getElementById('transferRate').value);
+            const beta = c * p;
+
+            document.getElementById('contactRate-display').textContent = c < 0.001 ? c.toFixed(6) : c.toFixed(4);
+            document.getElementById('transferRate-display').textContent = p.toFixed(2);
+            document.getElementById('contactRate-input').value = c < 0.001 ? c.toFixed(6) : c.toFixed(4);
+            document.getElementById('transferRate-input').value = p.toFixed(2);
+
+            const betaStr = beta < 0.001 ? beta.toExponential(3) : beta.toFixed(4);
+            document.getElementById('betaValue').textContent = 'β = ' + betaStr;
+            const cStr = c < 0.001 ? c.toFixed(6) : c.toFixed(4);
+            document.getElementById('betaComponents').textContent =
+                'Contact Rate (' + cStr + ') × Transfer Rate (' + p.toFixed(2) + ') = ' + betaStr;
+
+            updateMetrics();
+        }
+
+        function syncContact() {
+            const val = parseFloat(document.getElementById('contactRate-input').value);
+            document.getElementById('contactRate').value = val;
+            updateBeta();
+        }
+
+        function syncTransfer() {
+            const val = parseFloat(document.getElementById('transferRate-input').value);
+            document.getElementById('transferRate').value = val;
+            updateBeta();
+        }
+
+        // ============================================================
+        // R0, S*, AND METRICS
+        // ============================================================
+        function getBeta() {
+            return parseFloat(document.getElementById('contactRate').value) *
+                   parseFloat(document.getElementById('transferRate').value);
+        }
+
+        function updateMetrics() {
+            const beta = getBeta();
+            const gamma = parseFloat(document.getElementById('gamma')?.value) || 0.07143;
+            const mu = parseFloat(document.getElementById('mu')?.value) || 0;
+            const N = parseInt(document.getElementById('N').value) || 50000;
+
+            let r0, sThreshold, r0FormulaText, thresholdFormulaText;
+
+            if (transmissionMode === 'density') {
+                // Density-dependent: R0 = Nβ/(γ+μ), S* = (γ+μ)/β
+                r0 = (N * beta) / (gamma + mu);
+                sThreshold = (gamma + mu) / beta;
+                r0FormulaText = mu > 0 ? 'R₀ = Nβ/(γ+μ)' : 'R₀ = Nβ/γ';
+                thresholdFormulaText = mu > 0 ? 'S* = (γ+μ)/β' : 'S* = γ/β';
+            } else {
+                // Frequency-dependent: R0 = β/(γ+μ), S* = N(γ+μ)/β
+                r0 = beta / (gamma + mu);
+                sThreshold = N * (gamma + mu) / beta;
+                r0FormulaText = mu > 0 ? 'R₀ = β/(γ+μ)' : 'R₀ = β/γ';
+                thresholdFormulaText = mu > 0 ? 'S* = N(γ+μ)/β' : 'S* = Nγ/β';
+            }
+
+            // Update R0 display
+            document.getElementById('r0Formula').textContent = r0FormulaText;
+            document.getElementById('r0Value').textContent = r0.toFixed(2);
+
+            let status, bgColor;
+            if (r0 > 1) {
+                status = 'R₀ > 1: Epidemic can spread';
+                bgColor = 'linear-gradient(135deg, #dc2626, #ef4444)';
+            } else if (r0 === 1) {
+                status = 'R₀ = 1: Endemic (stable)';
+                bgColor = 'linear-gradient(135deg, #d97706, #f59e0b)';
+            } else {
+                status = 'R₀ < 1: Disease dies out';
+                bgColor = 'linear-gradient(135deg, #16a34a, #059669)';
+            }
+            document.getElementById('r0Status').textContent = status;
+            document.getElementById('r0Display').style.background = bgColor;
+
+            const herdThreshold = r0 > 1 ? (1 - 1/r0) * 100 : 0;
+            document.getElementById('herdImmunityThreshold').textContent =
+                'Herd immunity threshold: 1 − 1/R₀ = ' + herdThreshold.toFixed(1) + '%';
+
+            // Update S* display
+            document.getElementById('thresholdFormula').textContent = thresholdFormulaText;
+            document.getElementById('thresholdValue').textContent =
+                sThreshold >= 1000 ? Math.round(sThreshold).toLocaleString() : sThreshold.toFixed(1);
+
+            const S0 = N - (parseInt(document.getElementById('I0').value) || 0) -
+                       (parseInt(document.getElementById('R0_init').value) || 0);
+
+            let thresholdStatus;
+            if (S0 > sThreshold) {
+                thresholdStatus = 'Current S₀ = ' + S0.toLocaleString() + ' > S*: Disease WILL spread initially.';
+            } else {
+                thresholdStatus = 'Current S₀ = ' + S0.toLocaleString() + ' < S*: Disease is declining from this point.';
+            }
+            document.getElementById('thresholdStatus').textContent = thresholdStatus;
+
+            // Fun facts
+            let fact = '';
+            if (r0 < 1) {
+                fact = 'R₀ < 1 means each infected person produces fewer than one new infection. The disease will die out without intervention.';
+            } else if (r0 < 3) {
+                fact = 'With R₀ = ' + r0.toFixed(1) + ', each infected individual produces about ' + Math.round(r0) + ' new infections. Approximately ' + herdThreshold.toFixed(0) + '% of the population must be immune for herd immunity.';
+            } else if (r0 < 10) {
+                fact = 'R₀ = ' + r0.toFixed(1) + ' is highly contagious. S* = ' + Math.round(sThreshold).toLocaleString() + ' means the disease only stops spreading once susceptibles drop below this number.';
+            } else {
+                fact = 'R₀ = ' + r0.toFixed(1) + ' is extremely contagious. Nearly ' + herdThreshold.toFixed(0) + '% of the population must be immune to prevent spread.';
+            }
+            document.getElementById('funFacts').textContent = fact;
+        }
+
+        // ============================================================
+        // PARAMETER CONTROLS
+        // ============================================================
+        function renderParamControls() {
+            const grid = document.getElementById('parametersGrid');
+            const model = models[currentModel];
+            grid.innerHTML = '';
+
+            // Always include gamma and mu; add model-specific params
+            const allParams = [...model.params];
+            if (!allParams.includes('mu')) allParams.push('mu');
+
+            allParams.forEach(param => {
+                const meta = paramMeta[param];
+                if (!meta) return;
+                const val = parseFloat(document.getElementById(param)?.value) || meta.default;
+
+                const div = document.createElement('div');
+                div.className = 'param-group';
+                div.innerHTML = `
+                    <label class="param-label">
+                        ${meta.label}
+                        <div class="tooltip-icon" data-tooltip="${meta.tooltip}">ℹ️</div>
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="${param}" min="${meta.min}" max="${meta.max}" step="${meta.step}" value="${val}"
+                               oninput="onParamSlide('${param}')">
+                        <span class="param-value" id="${param}-display">${val < 0.01 ? val.toFixed(5) : val.toFixed(3)}</span>
+                    </div>
+                    <input type="number" id="${param}-input" value="${val}" min="${meta.min}" max="${meta.max}" step="${meta.step}"
+                           onchange="onParamInput('${param}')">
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function onParamSlide(param) {
+            const val = parseFloat(document.getElementById(param).value);
+            document.getElementById(param + '-display').textContent = val < 0.01 ? val.toFixed(5) : val.toFixed(3);
+            document.getElementById(param + '-input').value = val < 0.01 ? val.toFixed(5) : val.toFixed(3);
+            updateMetrics();
+        }
+
+        function onParamInput(param) {
+            const val = parseFloat(document.getElementById(param + '-input').value);
+            document.getElementById(param).value = val;
+            document.getElementById(param + '-display').textContent = val < 0.01 ? val.toFixed(5) : val.toFixed(3);
+            updateMetrics();
+        }
+
+        // ============================================================
+        // MODEL SWITCHING
+        // ============================================================
+        function switchModel(model, btn) {
+            currentModel = model;
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('modelDescription').textContent = models[model].description;
+            renderParamControls();
+            updateCompartmentDiagram();
+            updateBeta();
+            runSimulation();
+        }
+
+        function updateCompartmentDiagram() {
+            const model = models[currentModel];
+            const diagram = document.getElementById('compartmentDiagram');
+            diagram.innerHTML = '';
+
+            const hasWaning = currentModel === 'SIRS' || currentModel === 'SEIRS';
+
+            model.compartments.forEach((comp, idx) => {
+                const div = document.createElement('div');
+                div.className = 'compartment ' + comp;
+                div.textContent = comp;
+                diagram.appendChild(div);
+                if (idx < model.compartments.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'arrow';
+                    arrow.textContent = '→';
+                    diagram.appendChild(arrow);
+                }
+            });
+
+            if (hasWaning) {
+                const arrow = document.createElement('div');
+                arrow.className = 'arrow';
+                arrow.textContent = '→';
+                arrow.style.color = '#f59e0b';
+                diagram.appendChild(arrow);
+                const sAgain = document.createElement('div');
+                sAgain.className = 'compartment S';
+                sAgain.textContent = 'S';
+                sAgain.style.opacity = '0.7';
+                sAgain.style.border = '3px dashed #f59e0b';
+                diagram.appendChild(sAgain);
+            }
+
+            if (currentModel.includes('VAC')) {
+                const lbl = document.createElement('div');
+                lbl.style.cssText = 'width:100%;text-align:center;margin-top:10px;font-size:0.85em;color:#8b5cf6;font-weight:600;';
+                lbl.textContent = '(S vaccinated at rate ν → V)';
+                diagram.appendChild(lbl);
+            }
+        }
+
+        // ============================================================
+        // PRESETS
+        // ============================================================
+        function applyPreset(key) {
+            if (key === 'reset') {
+                document.getElementById('contactRate').value = 0.00004;
+                document.getElementById('transferRate').value = 0.25;
+                document.getElementById('N').value = 50000;
+                document.getElementById('I0').value = 1800;
+                document.getElementById('R0_init').value = 2500;
+                document.getElementById('tmax').value = 200;
+                setTransmissionMode('density');
+                if (document.getElementById('gamma')) document.getElementById('gamma').value = 0.07143;
+                if (document.getElementById('mu')) document.getElementById('mu').value = 0;
+                renderParamControls();
+                updateBeta();
+                runSimulation();
+                return;
+            }
+
+            const p = presets[key];
+            if (!p) return;
+
+            setTransmissionMode(p.mode);
+            document.getElementById('contactRate').value = p.contactRate;
+            document.getElementById('transferRate').value = p.transferRate;
+            document.getElementById('N').value = p.N;
+            document.getElementById('I0').value = p.I0;
+            document.getElementById('R0_init').value = p.R0_init;
+            document.getElementById('tmax').value = p.tmax;
+
+            // Set param values after rendering controls
+            renderParamControls();
+            ['gamma', 'sigma', 'omega', 'nu', 'mu'].forEach(param => {
+                const el = document.getElementById(param);
+                if (el && p[param] !== undefined) {
+                    el.value = p[param];
+                    const disp = document.getElementById(param + '-display');
+                    const inp = document.getElementById(param + '-input');
+                    if (disp) disp.textContent = p[param] < 0.01 ? p[param].toFixed(5) : p[param].toFixed(3);
+                    if (inp) inp.value = p[param] < 0.01 ? p[param].toFixed(5) : p[param].toFixed(3);
+                }
+            });
+
+            updateBeta();
+            runSimulation();
+        }
+
+        // ============================================================
+        // SIMULATION
+        // ============================================================
+        function runSimulation() {
+            const N = parseInt(document.getElementById('N').value);
+            const I0 = parseInt(document.getElementById('I0').value);
+            const R0_init = parseInt(document.getElementById('R0_init').value);
+            const tmax = parseInt(document.getElementById('tmax').value);
+
+            const beta = getBeta();
+            const gamma = parseFloat(document.getElementById('gamma')?.value) || 0.07143;
+            const sigma = parseFloat(document.getElementById('sigma')?.value) || 0.2;
+            const omega = parseFloat(document.getElementById('omega')?.value) || 0;
+            const nu = parseFloat(document.getElementById('nu')?.value) || 0;
+            const mu = parseFloat(document.getElementById('mu')?.value) || 0;
+
+            const params = { beta, gamma, sigma, omega, nu, mu };
+
+            const statusEl = document.getElementById('simStatus');
+            statusEl.textContent = 'Computing...';
+            statusEl.classList.add('running');
+
+            requestAnimationFrame(() => {
+                lastSimulationData = simulate(currentModel, N, I0, R0_init, tmax, params);
+                updateCharts();
+                statusEl.textContent = 'Ready';
+                statusEl.classList.remove('running');
+            });
+        }
+
+        function simulate(model, N, I0, R0_init, tmax, params) {
+            const dt = 0.1;
+            const t = [0];
+            let S = N - I0 - R0_init;
+            let I = I0, R = R0_init, E = 0, V = 0;
+
+            if (model.includes('SEIR') || model.includes('E')) {
+                E = Math.floor(I0 * 0.2);
+                I = I0 - E;
+            }
+
+            const data = { S: [S], I: [I], R: [R] };
+            if (model.includes('SEIR') || model.includes('E')) data.E = [E];
+            if (model.includes('VAC')) data.V = [V];
+
+            for (let time = dt; time <= tmax; time += dt) {
+                const totalN = S + I + R + E + V;
+
+                // Transmission term depends on mode
+                let lambda;
+                if (transmissionMode === 'density') {
+                    lambda = params.beta * S * I; // density-dependent: βSI
+                } else {
+                    lambda = (params.beta * S * I) / (totalN || 1); // frequency-dependent: βSI/N
+                }
+
+                let dS, dI, dE = 0, dR, dV = 0;
+
+                if (model.includes('SEIR')) {
+                    // SEIR-type: S -> E -> I -> R
+                    dS = -lambda + (params.omega || 0) * R - (params.nu || 0) * S + params.mu * totalN - params.mu * S;
+                    dE = lambda - params.sigma * E - params.mu * E;
+                    dI = params.sigma * E - params.gamma * I - params.mu * I;
+                    dR = params.gamma * I - (params.omega || 0) * R - params.mu * R;
+                    dV = (params.nu || 0) * S - params.mu * V;
+                } else {
+                    // SIR-type: S -> I -> R
+                    dS = -lambda + (params.omega || 0) * R - (params.nu || 0) * S + params.mu * totalN - params.mu * S;
+                    dI = lambda - params.gamma * I - params.mu * I;
+                    dR = params.gamma * I - (params.omega || 0) * R - params.mu * R;
+                    dV = (params.nu || 0) * S - params.mu * V;
+                }
+
+                S = Math.max(0, S + dS * dt);
+                I = Math.max(0, I + dI * dt);
+                E = Math.max(0, E + dE * dt);
+                R = Math.max(0, R + dR * dt);
+                V = Math.max(0, V + dV * dt);
+
+                data.S.push(S);
+                data.I.push(I);
+                data.R.push(R);
+                if (data.E !== undefined) data.E.push(E);
+                if (data.V !== undefined) data.V.push(V);
+                t.push(time);
+            }
+
+            return { t, data };
+        }
+
+        // ============================================================
+        // CHARTING
+        // ============================================================
+        function updateCharts() {
+            if (!lastSimulationData) return;
+            const { t, data } = lastSimulationData;
+            updateTimeSeriesChart(t, data);
+            updatePopulationGrid(data);
+            initProgressBar(data);
+        }
+
+        function updateTimeSeriesChart(t, data) {
+            const ctx = document.getElementById('timeSeriesChart').getContext('2d');
+
+            const datasets = [
+                { label: 'S (Susceptible)', data: data.S, borderColor: '#00b4d8', backgroundColor: 'rgba(0,180,216,0.1)', borderWidth: 2, tension: 0.3 },
+            ];
+
+            if (data.E) {
+                datasets.push({ label: 'E (Exposed)', data: data.E, borderColor: '#fcc34b', backgroundColor: 'rgba(252,195,75,0.1)', borderWidth: 2, tension: 0.3 });
+            }
+
+            datasets.push({ label: 'I (Infected)', data: data.I, borderColor: '#ff6b6b', backgroundColor: 'rgba(255,107,107,0.1)', borderWidth: 2, tension: 0.3 });
+            datasets.push({ label: 'R (Recovered)', data: data.R, borderColor: '#4ade80', backgroundColor: 'rgba(74,222,128,0.1)', borderWidth: 2, tension: 0.3 });
+
+            if (data.V) {
+                datasets.push({ label: 'V (Vaccinated)', data: data.V, borderColor: '#a78bfa', backgroundColor: 'rgba(167,139,250,0.1)', borderWidth: 2, tension: 0.3, borderDash: [5, 5] });
+            }
+
+            if (timeSeriesChart) {
+                timeSeriesChart.data.labels = t;
+                timeSeriesChart.data.datasets = datasets;
+                timeSeriesChart.update();
+            } else {
+                timeSeriesChart = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: t, datasets },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true, position: 'top', labels: { padding: 15, font: { size: 12 } } },
+                            tooltip: { mode: 'index', intersect: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: 'Population' } },
+                            x: {
+                                title: { display: true, text: 'Time (days)' },
+                                ticks: {
+                                    callback: function(value) {
+                                        const num = parseFloat(this.getLabelForValue(value));
+                                        return Number.isInteger(num) || Math.abs(num - Math.round(num)) < 0.01 ? Math.round(num) : null;
+                                    },
+                                    maxTicksLimit: 20
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function updatePopulationGrid(data) {
+            const grid = document.getElementById('populationGrid');
+            grid.innerHTML = '';
+
+            let peakIdx = 0, maxI = 0;
+            for (let i = 0; i < data.I.length; i++) {
+                if (data.I[i] > maxI) { maxI = data.I[i]; peakIdx = i; }
+            }
+
+            const N = parseInt(document.getElementById('N').value);
+            const gridSize = 100;
+            const scale = N / gridSize;
+
+            const sCount = Math.round(data.S[peakIdx] / scale);
+            const iCount = Math.round(data.I[peakIdx] / scale);
+            const rCount = Math.round(data.R[peakIdx] / scale);
+
+            const dots = [];
+            for (let i = 0; i < sCount; i++) dots.push('S');
+            for (let i = 0; i < iCount; i++) dots.push('I');
+            for (let i = 0; i < rCount; i++) dots.push('R');
+            while (dots.length < gridSize) dots.push('S');
+            while (dots.length > gridSize) dots.pop();
+
+            for (let i = dots.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [dots[i], dots[j]] = [dots[j], dots[i]];
+            }
+
+            const colors = { S: '#4facfe', I: '#ff6b6b', R: '#4ade80' };
+            dots.forEach((type, idx) => {
+                const dot = document.createElement('div');
+                dot.style.cssText = `width:10px;height:10px;border-radius:50%;background:${colors[type]};opacity:0;animation:dotAppear 0.3s ease forwards;animation-delay:${idx*5}ms;`;
+                grid.appendChild(dot);
+            });
+        }
+
+        function scrubTimeline(value) {
+            if (!lastSimulationData) return;
+            const { t, data } = lastSimulationData;
+            const idx = Math.floor((value / 100) * (t.length - 1));
+            const day = Math.round(t[idx]);
+            const totalN = parseInt(document.getElementById('N').value);
+
+            const sPct = data.S[idx] / totalN * 100;
+            const iPct = data.I[idx] / totalN * 100;
+            const rPct = data.R[idx] / totalN * 100;
+
+            document.getElementById('progressS').style.width = sPct + '%';
+            document.getElementById('progressI').style.left = sPct + '%';
+            document.getElementById('progressI').style.width = iPct + '%';
+            document.getElementById('progressR').style.left = (sPct + iPct) + '%';
+            document.getElementById('progressR').style.width = rPct + '%';
+
+            document.getElementById('progressLabels').innerHTML =
+                `<span style="color:#00b4d8">S: ${Math.round(data.S[idx]).toLocaleString()}</span>` +
+                `<span style="color:#ff6b6b">I: ${Math.round(data.I[idx]).toLocaleString()}</span>` +
+                `<span style="color:#4ade80">R: ${Math.round(data.R[idx]).toLocaleString()}</span>`;
+
+            document.getElementById('timeSliderLabel').textContent = 'Day ' + day;
+        }
+
+        function initProgressBar(data) {
+            document.getElementById('timeSliderMax').textContent = 'Day ' + document.getElementById('tmax').value;
+            document.getElementById('timeSlider').value = 0;
+            scrubTimeline(0);
+        }
+
+        // ============================================================
+        // PARTICLES
+        // ============================================================
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const types = ['virus', 'cell', 'antibody'];
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle ' + types[i % 3];
+                const size = 15 + Math.random() * 25;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (15 + Math.random() * 20) + 's';
+                p.style.animationDelay = '-' + (Math.random() * 20) + 's';
+                container.appendChild(p);
+            }
+        }
+
+        // ============================================================
+        // BOOT
+        // ============================================================
+        window.addEventListener('load', () => {
+            createParticles();
+            init();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+---
+title: "Lecture Notes"
+listing:
+  contents: notes
+  sort: "date desc"
+  type: grid
+  categories: true
+  fields: [image, date, title, description, categories]
+---
+
+Study guides and lecture notes from courses in disease ecology and epidemiology at UC Davis. 

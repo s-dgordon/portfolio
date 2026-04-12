@@ -2,4 +2,39 @@
 title: "Teaching"
 ---
 
-Coming soon.
+## Teaching Materials
+
+As a teaching assistant, I have developed interactive tools and educational resources for courses in disease ecology and epidemiology at UC Davis. Below are selected materials available for students and educators.
+
+---
+
+### Disease Dynamics Explorer
+
+An interactive simulator for compartmental epidemiological models (SIR, SIRS, SEIR, SEIRS) with density- and frequency-dependent transmission, vaccination, and real-time parameter adjustment.
+
+**Features:**
+
+- Toggle between SIR, SIRS, SEIR, SEIRS, and vaccination models
+- Adjust R₀, recovery rate, incubation period, and population size
+- Compare density-dependent vs. frequency-dependent transmission
+- Visual timeline scrubber and population grid
+
+::: {.callout-tip}
+## Student Access
+Access the full simulator here: [Disease Dynamics Explorer](disease-explorer.html){target="_blank"}
+:::
+
+#### Preview
+
+```{=html}
+<iframe src="disease-explorer.html" width="100%" height="700" style="border: 1px solid #ddd; border-radius: 10px;"></iframe>
+```
+
+---
+
+### Additional Resources
+
+More teaching tools coming soon, including:
+
+
+- R₀ and force of infection interactive exercises

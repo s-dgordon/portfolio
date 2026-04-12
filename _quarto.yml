@@ -1,15 +1,16 @@
 project:
   type: website
   output-dir: docs
-
+  resources:
+    - images/
 website:
   title: ""
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - href: projects.qmd
-        text: Projects
+      - href: lecture-notes.qmd
+        text: Lecture Notes
       - href: research.qmd
         text: Research
       - href: teaching.qmd

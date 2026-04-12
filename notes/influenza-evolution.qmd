@@ -1,0 +1,77 @@
+---
+title: "Influenza: Evolution, Pandemics, and the Road to H5N1"
+description: "From the 1918 Spanish flu to the 2025 panzootic: how influenza rewrites its own rules and why we keep getting surprised."
+date: 2026-02-17
+categories: [Disease Ecology, Virology, One Health]
+image: ../images/influenza.jpg
+---
+
+## Why Influenza Keeps Winning
+
+Influenza is, in many ways, the perfect teaching virus. It demonstrates nearly every major concept in disease ecology: antigenic variation, host-pathogen coevolution, zoonotic spillover, and the consequences of public health decision-making under uncertainty. This lecture traces the virus from 1918 to the present H5N1 situation and connects each historical moment to the concepts we've covered in class.
+
+## Three Mechanisms of Antigenic Change
+
+There are **three distinct mechanisms**, and we will see the distinction matters because surveillance strategies differ for each.
+
+**1. Direct jump:** The virus leaps from one host species to another without any intermediate genetic changes. No reassortment, no gradual adaptation. 
+
+**2. Adaptation:** The virus gradually accumulates mutations that allow it to bind to a new host's receptors. This is slow, stepwise evolution. Think of Michigan's dairy and poultry worker cases where occupational exposure provided the selective pressure.
+
+**3. Genetic reassortment:** Two different influenza viruses co-infect the same cell and swap gene segments, creating a novel combination. This is the classic "mixing vessel" scenario.
+
+All three produce antigenic shift. But they're mechanistically different, and each one creates a different surveillance challenge.
+
+## Sialic Acid Receptors: Location Determines Everything
+
+This is one of the most elegant pieces of molecular logic in virology:
+
+- **Humans** have alpha-2,6 sialic acid linkages in the **upper respiratory tract** (nose, throat)
+- **Birds** have alpha-2,3 linkages in the **intestinal epithelium** (which is why transmission is fecal)
+- **Pigs** have **both** receptor types! This is why they're called "mixing vessels"
+
+Here's the part that surprises people: **conjunctivitis is the classical H5N1 symptom in humans.** Why? Because humans have alpha-2,3 receptors in conjunctive tissue (the eyes). The virus can't efficiently infect the upper respiratory tract (alpha-2,6 territory), but it can infect the eyes. One of the key insights is that receptor distribution determines transmission route, tissue tropism, and clinical presentation.
+
+## The B/Yamagata Extinction: An Accidental Success?
+
+During the COVID-19 pandemic, influenza cases worldwide dropped dramatically. This was largely attributed to **non-pharmacological measures**: masking, isolation, behavioral changes that were in place for COVID.
+
+The consequence was extraordinary: one entire influenza lineage **B/Yamagata** — went extinct. It simply couldn't sustain transmission under those conditions.
+
+In response, the FDA recommended in 2024 that the annual flu vaccine change from a **quadrivalent** (4-strain) to a **trivalent** (3-strain) formulation. The three remaining viruses in the vaccine are A/H3N2, A/H1N1, and B/Victoria.
+
+**public health interventions for one pathogen can accidentally (or efficiently?) eliminate another.**
+
+## 1976 Fort Dix: The Mass Vaccination Debate
+
+At Fort Dix in New Jersey, an H1N1 strain resembling the 1918 virus was identified. The CDC director made the decision to pursue mass vaccination of the entire US population.
+
+40 million out of 200 million Americans were vaccinated. However, no pandemic materialized. Instead, many cases of Guillain-Barré syndrome emerged from the vaccine itself. Unfortunately, public health credibility was severely damaged.
+
+The lesson here is about **decision-making under uncertainty.** With incomplete information and catastrophic downside risk, what do you do? 
+
+
+## The Old vs. New H5N1 Scenario
+
+This is where the current situation breaks from everything we expected.
+
+**The old scenario:** Low-pathogenicity avian influenza circulated only in wild birds (the natural reservoir). Occasionally, it would spill into poultry farms, where the high-density environment selected for high-pathogenicity variants. High-path H5N1 was a farm problem, spread through biosecurity failures.
+
+**The new scenario:** Both low-path and high-path influenza are now circulating in **wild birds** — the reservoir itself is getting sick. This violates the expected pathogen-reservoir relationship, where we assume pathogens evolve to preserve their reservoir hosts. From wild birds, the virus is spilling over into mammals: seals, sea lions, mink, and — critically — **dairy cattle.**
+
+Cattle are now acting as a **new mixing vessel.** HA proteins in cattle-adapted strains are acquiring binding affinity for human alpha-2,6 receptors. This wasn't in any of the old pandemic preparedness playbooks.
+
+The term for this situation is **panzootic** — a pandemic in animals — and it's sadly the stage we're currently in.
+
+## Where We Are Now (2025–2026)
+
+The current H5N1 clade 2.3.4.4b has done things we didn't predict: it infects its own reservoir hosts (wild birds dying en masse), it has jumped into multiple mammalian species through independent spillover events, and it's showing signs of mammalian adaptation through multiple pathways, not just through pigs.
+
+Multiple concepts converge here: the Red Queen hypothesis (continuous coevolution), the amplification effect (high-density farming accelerating evolution), antigenic shift through all three mechanisms, receptor biology determining host range, and One Health as the only framework that makes sense of a virus moving through wild birds, livestock, and humans simultaneously.
+
+---
+
+*These notes are based on lectures from the VME 158 Disease Ecology course at UC Davis led by Dr. Janet Foley and Dr. Sophia Papageorgiou. All factual claims are supported by peer-reviewed literature and official sources (CDC, WHO, OIE).*
+---
+
+*Image: Designed by Freepik [www.freepik.com](https://www.freepik.com){target="_blank"}*

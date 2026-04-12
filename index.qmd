@@ -9,7 +9,7 @@ about:
   template: jolla
   image-shape: round
   image-width: 17em
-      links:
+  links:
     - icon: github
       text: GitHub
       href: https://github.com/s-dgordon
@@ -21,8 +21,6 @@ about:
       href: mailto:dsgordon@ucdavis.edu
     - text: "{{< ai orcid >}} ORCID"
       href: https://orcid.org/0000-0002-8244-5868
-    - text: "{{< ai google-scholar >}} Google Scholar"
-      href: https://scholar.google.com/citations?user=YOUR-ID
     - text: "{{< ai researchgate >}} ResearchGate"
       href: https://www.researchgate.net/profile/Shadira-Gordon
 ---
