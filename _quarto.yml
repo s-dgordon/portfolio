@@ -3,12 +3,21 @@ project:
   output-dir: docs
 
 website:
-  title: "Shadi Gordon"
+  title: "Shadira Gordon"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: projects.qmd
+        text: Projects
+      - href: research.qmd
+        text: Research
+      - href: teaching.qmd
+        text: Teaching
+      - href: cv.qmd
+        text: CV
 
 format:
   html:
     theme: cosmo
+    css: styles.css

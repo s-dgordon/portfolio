@@ -1,43 +1,31 @@
 ---
-title: "Hello, Quarto"
-format: html
-editor: visual
+title: "Shadira Gordon, DVM, MPVM"
+subtitle: "Veterinary Epidemiologist | Data Scientist | One Health Researcher"
+image: profile.jpg
+about:
+  template: trestles
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/s-dgordon
+    - icon: linkedin
+      text: LinkedIn
+      href: www.linkedin.com/in/shadira-gordon-4628aa141
+    - icon: envelope
+      text: Email
+      href: mailto:dsgordon@ucdavis.edu
 ---
 
-```{r}
-#| label: load-packages
-#| include: false
+## About Me
 
-library(tidyverse)
-library(palmerpenguins)
-```
+I am a veterinary epidemiologist working at the Center for Animal Disease Modeling and Surveillance (CADMS) at UC Davis. My work bridges veterinary medicine, data science, and public health through a One Health lens.
 
-## Meet Quarto
+My research focuses on antimicrobial resistance, small ruminant disease surveillance, and infectious disease modeling. I build interactive data tools, including R Shiny dashboards for wildlife disease surveillance and livestock health monitoring, that turn complex epidemiological data into actionable insights for researchers, producers, and government agencies.
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+I'm interested in developing strategies for emerging zoonotic threats preparedness, improving global disease surveillance systems, and preventing and controlling infectious diseases through a One Health approach.
 
-## Meet the penguins
+## Highlights
 
-![](https://raw.githubusercontent.com/quarto-dev/quarto-web/main/docs/get-started/hello/rstudio/lter_penguins.png){style="float:right;" fig-alt="Illustration of three species of Palmer Archipelago penguins: Chinstrap, Gentoo, and Adelie. Artwork by @allison_horst." width="401"}
-
-The `penguins` data from the [**palmerpenguins**](https://allisonhorst.github.io/palmerpenguins "palmerpenguins R package") package contains size measurements for `{r} nrow(penguins)` penguins from three species observed on three islands in the Palmer Archipelago, Antarctica.
-
-The plot below shows the relationship between flipper and bill lengths of these penguins.
-
-```{r}
-#| label: plot-penguins
-#| warning: false
-#| echo: false
-
-ggplot(penguins, 
-       aes(x = flipper_length_mm, y = bill_length_mm)) +
-  geom_point(aes(color = species, shape = species)) +
-  scale_color_manual(values = c("darkorange","purple","cyan4")) +
-  labs(
-    title = "Flipper and bill length",
-    subtitle = "Dimensions for penguins at Palmer Station LTER",
-    x = "Flipper length (mm)", y = "Bill length (mm)",
-    color = "Penguin species", shape = "Penguin species"
-  ) +
-  theme_minimal()
-```
+-   **Data Tools**: R Shiny dashboards deployed for California Department of Fish and Wildlife and dairy sheep producers
+-   **Research**: Longitudinal studies, AMR surveillance, outbreak investigation
+-   **Teaching**: Disease ecology, epidemiology course content development
