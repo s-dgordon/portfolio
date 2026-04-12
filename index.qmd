@@ -40,7 +40,7 @@ I'm deeply interested in developing strategies for emerging zoonotic threats pre
 ::: content-box
 **Toolkit:** R Studio, Python, ArcGIS, QGIS, SQL, Apache Spark, etc.
 
-**Research:** Observational studies, AMR surveillance, outbreak investigation
+**Research:** Observational studies, AMR surveillance, outbreak investigations
 
 **Teaching:** Disease ecology, infectious disease modeling, epidemiology course content development, etc.
 :::
