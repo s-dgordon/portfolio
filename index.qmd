@@ -19,6 +19,10 @@ about:
     - icon: envelope
       text: Email
       href: mailto:dsgordon@ucdavis.edu
+      text: "{{< ai orcid >}} ORCID"
+      href: https://orcid.org/0000-0002-8244-5868
+    - text: "{{< ai researchgate >}} ResearchGate"
+      href: https://www.researchgate.net/profile/Shadira-Gordon
 ---
 
 # **About Me**
