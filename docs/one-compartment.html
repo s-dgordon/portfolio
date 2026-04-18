@@ -613,12 +613,12 @@
 
     <header>
         <h1>One-Compartment Model Explorer</h1>
-        <p class="subtitle">The <strong>"Awesome Equation"</strong> applied to environmental and pharmacokinetic exposure</p>
+        <p class="subtitle">The <strong>"PK Equation"</strong> applied to environmental and pharmacokinetic exposure</p>
     </header>
 
-    <!-- ══════ Awesome Equation Banner ══════ -->
+    <!-- ══════ PK Equation Banner ══════ -->
     <div class="equation-banner">
-        <div class="eq-label">The Awesome Equation</div>
+        <div class="eq-label">The PK Equation</div>
         <div class="eq-math">
             C(t) = <sup>R<sub>in</sub></sup>&frasl;<sub>kV</sub> &middot; (1 &minus; e<sup>&minus;k&Delta;t</sup>) + C<sub>prev</sub> &middot; e<sup>&minus;k&Delta;t</sup>
         </div>
@@ -630,15 +630,15 @@
 
     <!-- ══════ Tabs ══════ -->
     <div class="tab-bar">
-        <button class="active" data-tab="pollutant" onclick="switchTab('pollutant')">Pollutant Half-Life</button>
-        <button data-tab="co2" onclick="switchTab('co2')">CO<sub>2</sub> in a Classroom</button>
-        <button data-tab="caffeine" onclick="switchTab('caffeine')">Caffeine in Plasma</button>
+       <button data-tab="pollutant" onclick="switchTab('pollutant')">Pollutant Half-Life</button>
+<button data-tab="co2" onclick="switchTab('co2')">CO<sub>2</sub> in a Classroom</button>
+<button class="active" data-tab="caffeine" onclick="switchTab('caffeine')">Caffeine in Plasma</button>
     </div>
 
     <!-- ══════════════════════════════════════════════════════════════════ -->
     <!--  TAB 1 — POLLUTANT HALF-LIFE                                     -->
     <!-- ══════════════════════════════════════════════════════════════════ -->
-    <div class="tab-pane active" id="pane-pollutant">
+<div class="tab-pane" id="pane-pollutant">
 
         <div class="info-callout info-teal">
             <strong>Scenario:</strong> A lake (or any environmental reservoir) has reached steady-state concentration from a constant pollutant input.
@@ -705,7 +705,7 @@
         <div class="info-callout info-amber">
             <strong>Scenario:</strong> CO<sub>2</sub> accumulates in a classroom when people are present (exhaled CO<sub>2</sub> adds to ventilation-supplied outdoor air).
             When the room empties, CO<sub>2</sub> decays back toward outdoor levels via ventilation.
-            This model uses the Awesome Equation with piecewise-constant input rates that change as occupancy changes.
+            This model uses the PK Equation with piecewise-constant input rates that change as occupancy changes.
         </div>
 
         <div class="card">
@@ -772,8 +772,7 @@
     <!-- ══════════════════════════════════════════════════════════════════ -->
     <!--  TAB 3 — CAFFEINE IN BLOOD PLASMA                                -->
     <!-- ══════════════════════════════════════════════════════════════════ -->
-    <div class="tab-pane" id="pane-caffeine">
-
+<div class="tab-pane active" id="pane-caffeine">
         <div class="info-callout info-rose">
             <strong>Scenario:</strong> Each caffeinated item you consume is absorbed over roughly 30 minutes, then eliminated by first-order kinetics
             (t<sub>1/2</sub> ~ 5 hours, range 1.5 -- 9.5 h). The "volume of distribution" is your blood plasma volume (~ 0.7 L/kg body weight).
@@ -885,7 +884,7 @@ function switchTab(tab) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// AWESOME EQUATION — core solver
+// PK EQUATION — core solver
 // ════════════════════════════════════════════════════════════════════════
 // C(t) = R_in/(k*V) * (1 - e^(-k*dt)) + C_prev * e^(-k*dt)
 function awesomeStep(C_prev, R_in, k, V, dt) {

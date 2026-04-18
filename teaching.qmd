@@ -51,7 +51,9 @@ This tool was originally developed by Dr. Scott Bartell and adapted by me for pu
 
 ::: {.callout-tip}
 ## Access
-Access the full simulator here: [One-Compartment Model Explorer](one-compartment.html){target="_blank"}
+- **English:** [One-Compartment Model Explorer](one-compartment.html){target="_blank"}
+- **Español:** [Explorador del Modelo de un Compartimento](one-compartment-es.html){target="_blank"}
+
 :::
 
 #### Preview

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One-Compartment Model Explorer</title>
+    <title>Explorador del Modelo de Un Compartimento</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
@@ -45,7 +45,6 @@
             line-height: 1.6;
         }
 
-        /* ── Topographic background texture ── */
         body::before {
             content: '';
             position: fixed;
@@ -66,7 +65,6 @@
             z-index: 1;
         }
 
-        /* ── Header ── */
         header {
             text-align: center;
             margin-bottom: 36px;
@@ -92,7 +90,6 @@
             color: var(--accent-teal);
         }
 
-        /* ── Tab navigation ── */
         .tab-bar {
             display: flex;
             gap: 4px;
@@ -133,7 +130,6 @@
         .tab-bar button[data-tab="co2"].active        { background: var(--accent-amber); }
         .tab-bar button[data-tab="caffeine"].active    { background: var(--accent-rose); }
 
-        /* ── Tab panes ── */
         .tab-pane { display: none; }
         .tab-pane.active { display: block; animation: fadeUp 0.35s ease; }
 
@@ -142,7 +138,6 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── Cards ── */
         .card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -171,7 +166,6 @@
             flex-shrink: 0;
         }
 
-        /* ── Equation banner ── */
         .equation-banner {
             background: var(--card);
             border: 1px solid var(--border);
@@ -205,7 +199,6 @@
             font-style: italic;
         }
 
-        /* ── Parameter grid ── */
         .param-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -256,7 +249,6 @@
             border: 2px solid var(--accent-teal);
             cursor: pointer;
             box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-            transition: border-color 0.2s;
         }
 
         .param-item input[type="range"]::-moz-range-thumb {
@@ -302,7 +294,6 @@
             line-height: 1.4;
         }
 
-        /* ── Metrics row ── */
         .metrics-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -342,14 +333,12 @@
         .metric-rose    { background: linear-gradient(135deg, var(--accent-rose), var(--accent-rose-light)); }
         .metric-blue    { background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-light)); }
 
-        /* ── Chart ── */
         .chart-container {
             position: relative;
             height: 380px;
             margin-top: 10px;
         }
 
-        /* ── Run button ── */
         .run-bar {
             display: flex;
             align-items: center;
@@ -384,7 +373,6 @@
             color: var(--ink-muted);
         }
 
-        /* ── Caffeine event log ── */
         .event-log {
             border: 1px solid var(--border);
             border-radius: var(--radius);
@@ -485,7 +473,6 @@
             color: #fff;
         }
 
-        /* ── Sleep threshold line annotation ── */
         .threshold-note {
             font-size: 0.82em;
             color: var(--ink-muted);
@@ -496,7 +483,6 @@
             margin-top: 12px;
         }
 
-        /* ── Info callout ── */
         .info-callout {
             padding: 14px 18px;
             border-radius: var(--radius);
@@ -511,7 +497,6 @@
         .info-amber { background: var(--accent-amber-bg); border-left: 3px solid var(--accent-amber); }
         .info-rose  { background: var(--accent-rose-bg);  border-left: 3px solid var(--accent-rose); }
 
-        /* ── CO2 Occupancy Schedule ── */
         .schedule-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -559,36 +544,6 @@
 
         .schedule-block .sep { color: var(--ink-muted); font-size: 0.85em; }
 
-        /* ── Progress / timeline scrubber ── */
-        .timeline-section {
-            margin-top: 16px;
-        }
-
-        .progress-bar-track {
-            position: relative;
-            height: 24px;
-            background: var(--border-light);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 6px;
-        }
-
-        .progress-fill {
-            position: absolute;
-            top: 0; left: 0;
-            height: 100%;
-            transition: width 0.3s ease;
-            border-radius: 12px;
-        }
-
-        .scrubber-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.78em;
-            color: var(--ink-muted);
-        }
-
-        /* ── Footer ── */
         footer {
             text-align: center;
             padding: 24px 0 0;
@@ -596,7 +551,6 @@
             color: var(--ink-muted);
         }
 
-        /* ── Responsive ── */
         @media (max-width: 700px) {
             .page-wrapper { padding: 16px 12px 40px; }
             header h1 { font-size: 1.6em; }
@@ -612,73 +566,69 @@
 <div class="page-wrapper">
 
     <header>
-        <h1>One-Compartment Model Explorer</h1>
-        <p class="subtitle">The <strong>"PK Equation"</strong> applied to environmental and pharmacokinetic exposure</p>
+        <h1>Explorador del Modelo de Un Compartimento</h1>
+        <p class="subtitle">La <strong>&ldquo;Ecuaci&oacute;n PK &rdquo;</strong> aplicada a la exposici&oacute;n ambiental y farmacocin&eacute;tica</p>
     </header>
 
-    <!-- ══════ PK Equation Banner ══════ -->
     <div class="equation-banner">
-        <div class="eq-label">The PK Equation</div>
+        <div class="eq-label">La Ecuaci&oacute;n PK</div>
         <div class="eq-math">
             C(t) = <sup>R<sub>in</sub></sup>&frasl;<sub>kV</sub> &middot; (1 &minus; e<sup>&minus;k&Delta;t</sup>) + C<sub>prev</sub> &middot; e<sup>&minus;k&Delta;t</sup>
         </div>
         <div class="eq-note">
-            Exact solution for a one-compartment model with first-order removal and piecewise-constant input.
+            Soluci&oacute;n exacta para un modelo de un compartimento con eliminaci&oacute;n de primer orden y entrada constante por tramos.
             &nbsp;&bull;&nbsp; t<sub>1/2</sub> = ln(2) / k
         </div>
     </div>
 
-    <!-- ══════ Tabs ══════ -->
     <div class="tab-bar">
-       <button data-tab="pollutant" onclick="switchTab('pollutant')">Pollutant Half-Life</button>
-<button data-tab="co2" onclick="switchTab('co2')">CO<sub>2</sub> in a Classroom</button>
-<button class="active" data-tab="caffeine" onclick="switchTab('caffeine')">Caffeine in Plasma</button>
+        <button data-tab="pollutant" onclick="switchTab('pollutant')">Vida Media de Contaminante</button>
+        <button data-tab="co2" onclick="switchTab('co2')">CO<sub>2</sub> en un Sal&oacute;n de Clases</button>
+        <button class="active" data-tab="caffeine" onclick="switchTab('caffeine')">Cafe&iacute;na en Plasma</button>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-    <!--  TAB 1 — POLLUTANT HALF-LIFE                                     -->
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-<div class="tab-pane" id="pane-pollutant">
+    <!-- ══════ TAB 1 — CONTAMINANTE ══════ -->
+    <div class="tab-pane" id="pane-pollutant">
 
         <div class="info-callout info-teal">
-            <strong>Scenario:</strong> A lake (or any environmental reservoir) has reached steady-state concentration from a constant pollutant input.
-            At time zero, the input <em>stops</em>. The model shows exponential decay governed by the first-order removal rate k.
-            You can also model what happens when a <em>new, lower</em> input replaces the old one.
+            <strong>Escenario:</strong> Un lago (o cualquier reservorio ambiental) ha alcanzado una concentraci&oacute;n en estado estacionario por una entrada constante de contaminante.
+            En el tiempo cero, la entrada <em>se detiene</em>. El modelo muestra la decaimiento exponencial gobernado por la tasa de eliminaci&oacute;n de primer orden k.
+            Tambi&eacute;n se puede modelar qu&eacute; sucede cuando una <em>nueva entrada m&aacute;s baja</em> reemplaza a la anterior.
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-teal)"></span>Environment &amp; Pollutant Parameters</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-teal)"></span>Par&aacute;metros del Ambiente y Contaminante</div>
             <div class="param-grid">
                 <div class="param-item">
-                    <label>Volume of reservoir, V <span class="unit">(m&#179; or L)</span></label>
+                    <label>Volumen del reservorio, V <span class="unit">(m&#179; o L)</span></label>
                     <input type="number" id="p-V" value="1000000" min="1" step="1000" onchange="runPollutant()">
-                    <div class="help-text">Lake volume, aquifer volume, room air volume, etc.</div>
+                    <div class="help-text">Volumen del lago, acu&iacute;fero, aire de la habitaci&oacute;n, etc.</div>
                 </div>
                 <div class="param-item">
-                    <label>Initial concentration, C<sub>0</sub> <span class="unit">(mg/L or &#181;g/L)</span></label>
+                    <label>Concentraci&oacute;n inicial, C<sub>0</sub> <span class="unit">(mg/L o &#181;g/L)</span></label>
                     <input type="number" id="p-C0" value="50" min="0" step="0.1" onchange="runPollutant()">
-                    <div class="help-text">Concentration at the moment the input changes.</div>
+                    <div class="help-text">Concentraci&oacute;n en el momento en que cambia la entrada.</div>
                 </div>
                 <div class="param-item">
-                    <label>Removal rate, k <span class="unit">(per year)</span></label>
+                    <label>Tasa de eliminaci&oacute;n, k <span class="unit">(por a&ntilde;o)</span></label>
                     <div class="slider-row">
                         <input type="range" id="p-k" min="0.001" max="2" step="0.001" value="0.1" oninput="syncPollutantK()">
                         <span class="val-display" id="p-k-disp">0.100</span>
                     </div>
                     <input type="number" id="p-k-num" value="0.1" min="0.0001" max="10" step="0.001" onchange="syncPollutantKFromNum()">
-                    <div class="help-text">Includes all first-order removal: flushing, degradation, volatilization.</div>
+                    <div class="help-text">Incluye toda la eliminaci&oacute;n de primer orden: lavado, degradaci&oacute;n, volatilizaci&oacute;n.</div>
                 </div>
                 <div class="param-item">
-                    <label>New input rate, R<sub>in</sub> <span class="unit">(mg/yr)</span></label>
+                    <label>Nueva tasa de entrada, R<sub>in</sub> <span class="unit">(mg/a&ntilde;o)</span></label>
                     <input type="number" id="p-Rin" value="0" min="0" step="100" onchange="runPollutant()">
-                    <div class="help-text">Set to 0 for complete cessation. Set &gt; 0 for a reduced-input scenario.</div>
+                    <div class="help-text">Establecer en 0 para cese completo. Establecer &gt; 0 para un escenario de entrada reducida.</div>
                 </div>
                 <div class="param-item">
-                    <label>Simulation time <span class="unit">(years)</span></label>
+                    <label>Tiempo de simulaci&oacute;n <span class="unit">(a&ntilde;os)</span></label>
                     <input type="number" id="p-tmax" value="30" min="1" max="500" step="1" onchange="runPollutant()">
                 </div>
                 <div class="param-item">
-                    <label>Pollutant name <span class="unit">(label only)</span></label>
+                    <label>Nombre del contaminante <span class="unit">(solo etiqueta)</span></label>
                     <input type="text" id="p-name" value="PFOA" oninput="runPollutant()" style="border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:'Lato',sans-serif;font-size:0.92em;background:var(--surface);width:100%;">
                 </div>
             </div>
@@ -687,186 +637,183 @@
         <div class="metrics-row" id="p-metrics"></div>
 
         <div class="run-bar">
-            <button class="btn-run btn-teal" onclick="runPollutant()">Run Simulation</button>
-            <span class="status" id="p-status">Ready</span>
+            <button class="btn-run btn-teal" onclick="runPollutant()">Ejecutar Simulaci&oacute;n</button>
+            <span class="status" id="p-status">Listo</span>
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-teal)"></span>Concentration Over Time</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-teal)"></span>Concentraci&oacute;n a lo Largo del Tiempo</div>
             <div class="chart-container"><canvas id="chart-pollutant"></canvas></div>
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-    <!--  TAB 2 — CO2 IN A CLASSROOM                                      -->
-    <!-- ══════════════════════════════════════════════════════════════════ -->
+    <!-- ══════ TAB 2 — CO2 EN UN SALÓN ══════ -->
     <div class="tab-pane" id="pane-co2">
 
         <div class="info-callout info-amber">
-            <strong>Scenario:</strong> CO<sub>2</sub> accumulates in a classroom when people are present (exhaled CO<sub>2</sub> adds to ventilation-supplied outdoor air).
-            When the room empties, CO<sub>2</sub> decays back toward outdoor levels via ventilation.
-            This model uses the PK Equation with piecewise-constant input rates that change as occupancy changes.
+            <strong>Escenario:</strong> El CO<sub>2</sub> se acumula en un sal&oacute;n de clases cuando hay personas presentes (el CO<sub>2</sub> exhalado se suma al aire exterior suministrado por la ventilaci&oacute;n).
+            Cuando el sal&oacute;n se vac&iacute;a, el CO<sub>2</sub> decae hacia los niveles exteriores mediante ventilaci&oacute;n.
+            Este modelo usa la Ecuaci&oacute;n PK con tasas de entrada constantes por tramos que cambian seg&uacute;n la ocupaci&oacute;n.
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-amber)"></span>Room &amp; Ventilation Parameters</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-amber)"></span>Par&aacute;metros del Sal&oacute;n y Ventilaci&oacute;n</div>
             <div class="param-grid">
                 <div class="param-item">
-                    <label>Room volume, V <span class="unit">(m&#179;)</span></label>
+                    <label>Volumen del sal&oacute;n, V <span class="unit">(m&#179;)</span></label>
                     <input type="number" id="co2-V" value="400" min="10" max="5000" step="10" onchange="runCO2()">
-                    <div class="help-text">Typical 25-30 person classroom ~ 400 m&#179;</div>
+                    <div class="help-text">Sal&oacute;n t&iacute;pico de 25-30 personas ~ 400 m&#179;</div>
                 </div>
                 <div class="param-item">
-                    <label>Air changes per hour, k <span class="unit">(hr&#8315;&#185;)</span></label>
+                    <label>Cambios de aire por hora, k <span class="unit">(hr&#8315;&#185;)</span></label>
                     <div class="slider-row">
                         <input type="range" id="co2-k" min="0.5" max="12" step="0.1" value="4" oninput="syncCO2K()">
                         <span class="val-display" id="co2-k-disp">4.0</span>
                     </div>
                     <input type="number" id="co2-k-num" value="4" min="0.1" max="30" step="0.1" onchange="syncCO2KFromNum()">
-                    <div class="help-text">UC Davis offices ~ 4 ACH; labs ~ 6 ACH</div>
+                    <div class="help-text">Oficinas UC Davis ~ 4 ACH; laboratorios ~ 6 ACH</div>
                 </div>
                 <div class="param-item">
-                    <label>Outdoor CO<sub>2</sub>, C<sub>atm</sub> <span class="unit">(ppm)</span></label>
+                    <label>CO<sub>2</sub> exterior, C<sub>atm</sub> <span class="unit">(ppm)</span></label>
                     <input type="number" id="co2-Catm" value="431" min="300" max="600" step="1" onchange="runCO2()">
-                    <div class="help-text">Current Keeling Curve value ~ 431 ppm (2026)</div>
+                    <div class="help-text">Valor actual de la Curva Keeling ~ 431 ppm (2026)</div>
                 </div>
                 <div class="param-item">
-                    <label>CO<sub>2</sub> per person <span class="unit">(mg/hr)</span></label>
+                    <label>CO<sub>2</sub> por persona <span class="unit">(mg/hr)</span></label>
                     <input type="number" id="co2-perPerson" value="43500" min="10000" max="80000" step="500" onchange="runCO2()">
-                    <div class="help-text">~ 43,500 mg/hr from NRDC estimate (2.3 lbs CO<sub>2</sub>/person/day)</div>
+                    <div class="help-text">~ 43,500 mg/hr seg&uacute;n estimaci&oacute;n del NRDC (1.04 kg CO<sub>2</sub>/persona/d&iacute;a)</div>
                 </div>
                 <div class="param-item">
-                    <label>Simulation length <span class="unit">(hours)</span></label>
+                    <label>Duraci&oacute;n de simulaci&oacute;n <span class="unit">(horas)</span></label>
                     <input type="number" id="co2-tmax" value="4" min="1" max="24" step="0.5" onchange="runCO2()">
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-amber)"></span>Occupancy Schedule</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-amber)"></span>Horario de Ocupaci&oacute;n</div>
             <p style="font-size:0.85em;color:var(--ink-muted);margin-bottom:12px;">
-                Define when people enter and leave the room. You can add multiple occupancy blocks (e.g., two back-to-back classes).
+                Defina cu&aacute;ndo entran y salen las personas del sal&oacute;n. Puede agregar m&uacute;ltiples bloques de ocupaci&oacute;n (por ejemplo, dos clases consecutivas).
             </p>
             <div id="co2-schedule"></div>
             <div style="margin-top:10px;">
-                <button class="btn-add" onclick="addCO2Block()" style="border-color:var(--accent-amber);color:var(--accent-amber);" onmouseover="this.style.background='var(--accent-amber)';this.style.color='#fff'" onmouseout="this.style.background='var(--card)';this.style.color='var(--accent-amber)'">+ Add Occupancy Block</button>
+                <button class="btn-add" onclick="addCO2Block()" style="border-color:var(--accent-amber);color:var(--accent-amber);" onmouseover="this.style.background='var(--accent-amber)';this.style.color='#fff'" onmouseout="this.style.background='var(--card)';this.style.color='var(--accent-amber)'">+ Agregar Bloque de Ocupaci&oacute;n</button>
             </div>
         </div>
 
         <div class="metrics-row" id="co2-metrics"></div>
 
         <div class="run-bar">
-            <button class="btn-run btn-amber" onclick="runCO2()">Run Simulation</button>
-            <span class="status" id="co2-status">Ready</span>
+            <button class="btn-run btn-amber" onclick="runCO2()">Ejecutar Simulaci&oacute;n</button>
+            <span class="status" id="co2-status">Listo</span>
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-amber)"></span>CO<sub>2</sub> Concentration Over Time</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-amber)"></span>Concentraci&oacute;n de CO<sub>2</sub> a lo Largo del Tiempo</div>
             <div class="chart-container"><canvas id="chart-co2"></canvas></div>
             <div class="threshold-note">
-                Dashed line at 1000 ppm: recommended upper limit for indoor air quality. At 800 ppm (~1440 mg/m&#179;), approximately 1% of air is re-breathed.
+                L&iacute;nea punteada a 1000 ppm: l&iacute;mite superior recomendado para calidad de aire interior. A 800 ppm (~1440 mg/m&#179;), aproximadamente el 1% del aire es re-respirado.
             </div>
         </div>
     </div>
 
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-    <!--  TAB 3 — CAFFEINE IN BLOOD PLASMA                                -->
-    <!-- ══════════════════════════════════════════════════════════════════ -->
-<div class="tab-pane active" id="pane-caffeine">
+    <!-- ══════ TAB 3 — CAFEÍNA EN PLASMA ══════ -->
+    <div class="tab-pane active" id="pane-caffeine">
+
         <div class="info-callout info-rose">
-            <strong>Scenario:</strong> Each caffeinated item you consume is absorbed over roughly 30 minutes, then eliminated by first-order kinetics
-            (t<sub>1/2</sub> ~ 5 hours, range 1.5 -- 9.5 h). The "volume of distribution" is your blood plasma volume (~ 0.7 L/kg body weight).
-            Plasma caffeine above about 0.8 mg/L is associated with disrupted NREM sleep and elevated heart rate.
+            <strong>Escenario:</strong> Cada producto con cafe&iacute;na que consumes se absorbe en aproximadamente 30 minutos, y luego se elimina por cin&eacute;tica de primer orden
+            (t<sub>1/2</sub> ~ 5 horas, rango 1.5 &ndash; 9.5 h). El &ldquo;volumen de distribuci&oacute;n&rdquo; es tu volumen de plasma sangu&iacute;neo (~ 0.7 L/kg de peso corporal).
+            Cafe&iacute;na plasm&aacute;tica por encima de aproximadamente 0.8 mg/L se asocia con alteraci&oacute;n del sue&ntilde;o NREM y elevaci&oacute;n de la frecuencia card&iacute;aca.
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-rose)"></span>Your Body Parameters</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-rose)"></span>Par&aacute;metros de Tu Cuerpo</div>
             <div class="param-grid">
                 <div class="param-item">
-                    <label>Body weight <span class="unit">(kg)</span></label>
+                    <label>Peso corporal <span class="unit">(kg)</span></label>
                     <input type="number" id="caf-weight" value="70" min="30" max="200" step="1" onchange="updateCafParams(); runCaffeine()">
-                    <div class="help-text">Used to compute volume of distribution (0.7 L/kg)</div>
+                    <div class="help-text">Se usa para calcular el volumen de distribuci&oacute;n (0.7 L/kg)</div>
                 </div>
                 <div class="param-item">
-                    <label>Half-life, t<sub>1/2</sub> <span class="unit">(hours)</span></label>
+                    <label>Vida media, t<sub>1/2</sub> <span class="unit">(horas)</span></label>
                     <div class="slider-row">
                         <input type="range" id="caf-halflife" min="1.5" max="9.5" step="0.1" value="5" oninput="syncCafHL()">
                         <span class="val-display" id="caf-hl-disp">5.0 h</span>
                     </div>
                     <input type="number" id="caf-hl-num" value="5" min="1" max="12" step="0.1" onchange="syncCafHLFromNum()">
-                    <div class="help-text">Population range: 1.5 -- 9.5 h (IOM, 2001). Smoking shortens; pregnancy lengthens.</div>
+                    <div class="help-text">Rango poblacional: 1.5 &ndash; 9.5 h (IOM, 2001). Fumar la acorta; el embarazo la prolonga.</div>
                 </div>
                 <div class="param-item">
-                    <label>Residual C<sub>0</sub> at start <span class="unit">(mg/L)</span></label>
+                    <label>C<sub>0</sub> residual al inicio <span class="unit">(mg/L)</span></label>
                     <input type="number" id="caf-C0" value="0" min="0" max="5" step="0.05" onchange="runCaffeine()">
-                    <div class="help-text">Overnight clearance usually brings this near zero for moderate drinkers.</div>
+                    <div class="help-text">La eliminaci&oacute;n nocturna usualmente lleva esto cerca de cero para bebedores moderados.</div>
                 </div>
                 <div class="param-item">
-                    <label>Day starts at <span class="unit">(hour, 24h format)</span></label>
+                    <label>El d&iacute;a comienza a las <span class="unit">(hora, formato 24h)</span></label>
                     <input type="number" id="caf-starthr" value="6" min="0" max="12" step="1" onchange="runCaffeine()">
-                    <div class="help-text">E.g. 6 = 6:00 AM</div>
+                    <div class="help-text">Ej. 6 = 6:00 AM</div>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-rose)"></span>Caffeine Intake Log</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-rose)"></span>Registro de Consumo de Cafe&iacute;na</div>
             <p style="font-size:0.85em;color:var(--ink-muted);margin-bottom:12px;">
-                Add each caffeinated item you consume during the day. Absorption is modeled over a 30-minute window.
+                Agrega cada producto con cafe&iacute;na que consumes durante el d&iacute;a. La absorci&oacute;n se modela en una ventana de 30 minutos.
             </p>
             <div class="add-event-row">
                 <div class="field">
-                    <label>Time (24h)</label>
+                    <label>Hora (24h)</label>
                     <input type="time" id="caf-event-time" value="09:00">
                 </div>
                 <div class="field">
-                    <label>Item</label>
+                    <label>Producto</label>
                     <select id="caf-event-item">
-                        <option value="64">Espresso (1 shot) -- 64 mg</option>
-                        <option value="95" selected>Coffee (1 cup) -- 95 mg</option>
-                        <option value="47">Black tea (1 cup) -- 47 mg</option>
-                        <option value="40">Green tea (1 cup) -- 40 mg</option>
-                        <option value="34">Coca-Cola (12 oz) -- 34 mg</option>
-                        <option value="4">Chocolate ice cream -- 4 mg</option>
-                        <option value="50">Matcha ice cream -- 50 mg</option>
-                        <option value="custom">Custom amount...</option>
+                        <option value="64">Espresso (1 shot) &ndash; 64 mg</option>
+                        <option value="95" selected>Caf&eacute; (1 taza) &ndash; 95 mg</option>
+                        <option value="47">T&eacute; negro (1 taza) &ndash; 47 mg</option>
+                        <option value="40">T&eacute; verde (1 taza) &ndash; 40 mg</option>
+                        <option value="34">Coca-Cola (355 mL) &ndash; 34 mg</option>
+                        <option value="4">Helado de chocolate &ndash; 4 mg</option>
+                        <option value="50">Helado de matcha &ndash; 50 mg</option>
+                        <option value="custom">Cantidad personalizada...</option>
                     </select>
                 </div>
                 <div class="field" id="caf-custom-field" style="display:none">
-                    <label>Caffeine (mg)</label>
+                    <label>Cafe&iacute;na (mg)</label>
                     <input type="number" id="caf-custom-mg" value="100" min="1" max="1000" step="1">
                 </div>
-                <button class="btn-add" onclick="addCaffeineEvent()">+ Add</button>
+                <button class="btn-add" onclick="addCaffeineEvent()">+ Agregar</button>
             </div>
             <div class="event-log" id="caf-log-container">
                 <table>
-                    <thead><tr><th>Time</th><th>Item</th><th>Caffeine</th><th></th></tr></thead>
+                    <thead><tr><th>Hora</th><th>Producto</th><th>Cafe&iacute;na</th><th></th></tr></thead>
                     <tbody id="caf-log-body"></tbody>
                 </table>
             </div>
             <div style="margin-top:6px;">
-                <button class="btn-add" onclick="loadSampleDay()" style="border-color:var(--ink-muted);color:var(--ink-muted);font-weight:400;" onmouseover="this.style.background='var(--ink-muted)';this.style.color='#fff'" onmouseout="this.style.background='var(--card)';this.style.color='var(--ink-muted)'">Load sample day</button>
+                <button class="btn-add" onclick="loadSampleDay()" style="border-color:var(--ink-muted);color:var(--ink-muted);font-weight:400;" onmouseover="this.style.background='var(--ink-muted)';this.style.color='#fff'" onmouseout="this.style.background='var(--card)';this.style.color='var(--ink-muted)'">Cargar d&iacute;a de ejemplo</button>
             </div>
         </div>
 
         <div class="metrics-row" id="caf-metrics"></div>
 
         <div class="run-bar">
-            <button class="btn-run btn-rose" onclick="runCaffeine()">Run Simulation</button>
-            <span class="status" id="caf-status">Ready</span>
+            <button class="btn-run btn-rose" onclick="runCaffeine()">Ejecutar Simulaci&oacute;n</button>
+            <span class="status" id="caf-status">Listo</span>
         </div>
 
         <div class="card">
-            <div class="card-title"><span class="dot" style="background:var(--accent-rose)"></span>Plasma Caffeine Over Time</div>
+            <div class="card-title"><span class="dot" style="background:var(--accent-rose)"></span>Cafe&iacute;na Plasm&aacute;tica a lo Largo del Tiempo</div>
             <div class="chart-container"><canvas id="chart-caffeine"></canvas></div>
             <div class="threshold-note">
-                Dashed line at 0.8 mg/L: plasma caffeine above this level is associated with disrupted heart rate and NREM sleep (Baur et al., 2024).
+                L&iacute;nea punteada a 0.8 mg/L: la cafe&iacute;na plasm&aacute;tica por encima de este nivel se asocia con alteraci&oacute;n de la frecuencia card&iacute;aca y del sue&ntilde;o NREM (Baur et al., 2024).
             </div>
         </div>
     </div>
 
     <footer>
-        Environmental Exposure Assessment | One-Compartment Model Explorer | Made for educational purposes
+        Evaluaci&oacute;n de Exposici&oacute;n Ambiental | Explorador del Modelo de Un Compartimento | Con fines educativos
     </footer>
 </div>
 
@@ -884,16 +831,15 @@ function switchTab(tab) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// PK EQUATION — core solver
+// AWESOME EQUATION — core solver
 // ════════════════════════════════════════════════════════════════════════
-// C(t) = R_in/(k*V) * (1 - e^(-k*dt)) + C_prev * e^(-k*dt)
 function awesomeStep(C_prev, R_in, k, V, dt) {
     const decay = Math.exp(-k * dt);
     return (R_in / (k * V)) * (1 - decay) + C_prev * decay;
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// TAB 1 — POLLUTANT HALF-LIFE
+// TAB 1 — CONTAMINANTE
 // ════════════════════════════════════════════════════════════════════════
 function syncPollutantK() {
     const v = parseFloat(document.getElementById('p-k').value);
@@ -914,10 +860,10 @@ function runPollutant() {
     const k    = parseFloat(document.getElementById('p-k-num').value);
     const Rin  = parseFloat(document.getElementById('p-Rin').value);
     const tmax = parseFloat(document.getElementById('p-tmax').value);
-    const name = document.getElementById('p-name').value || 'Pollutant';
+    const name = document.getElementById('p-name').value || 'Contaminante';
 
     const halfLife = Math.LN2 / k;
-    const Css = Rin / (k * V);  // new steady state
+    const Css = Rin / (k * V);
 
     const dt = tmax / 500;
     const times = [0], concs = [C0];
@@ -928,117 +874,82 @@ function runPollutant() {
         concs.push(C);
     }
 
-    // Time to reach half of initial
     let tHalf = null;
-    const target = (C0 + Css) / 2; // halfway between C0 and new steady state
+    const target = (C0 + Css) / 2;
     for (let i = 1; i < concs.length; i++) {
         if (concs[i] <= target) { tHalf = times[i]; break; }
     }
 
-    // Metrics
     document.getElementById('p-metrics').innerHTML = `
         <div class="metric-box metric-teal">
-            <div class="metric-label">Half-life (t<sub>1/2</sub>)</div>
+            <div class="metric-label">Vida media (t<sub>1/2</sub>)</div>
             <div class="metric-value">${halfLife.toFixed(2)}</div>
-            <div class="metric-sub">years</div>
+            <div class="metric-sub">a\u00f1os</div>
         </div>
         <div class="metric-box metric-blue">
-            <div class="metric-label">New steady state</div>
-            <div class="metric-value">${Css < 0.01 ? Css.toExponential(2) : Css.toFixed(2)}</div>
-            <div class="metric-sub">same units as C<sub>0</sub></div>
+            <div class="metric-label">Nuevo estado estacionario</div>
+            <div class="metric-value">${Css < 0.01 ? Css.toFixed(6) : Css.toFixed(2)}</div>
+            <div class="metric-sub">mismas unidades que C<sub>0</sub></div>
         </div>
         <div class="metric-box" style="background:linear-gradient(135deg,#555,#777)">
-            <div class="metric-label">Time to reach midpoint</div>
+            <div class="metric-label">Tiempo al punto medio</div>
             <div class="metric-value">${tHalf !== null ? tHalf.toFixed(1) : '> sim'}</div>
-            <div class="metric-sub">years</div>
+            <div class="metric-sub">a\u00f1os</div>
         </div>
         <div class="metric-box metric-teal">
-            <div class="metric-label">Removal rate k</div>
+            <div class="metric-label">Tasa de eliminaci\u00f3n k</div>
             <div class="metric-value">${k.toFixed(3)}</div>
-            <div class="metric-sub">per year</div>
+            <div class="metric-sub">por a\u00f1o</div>
         </div>
     `;
 
-    // Chart
     const ctx = document.getElementById('chart-pollutant').getContext('2d');
     if (charts.pollutant) charts.pollutant.destroy();
-
     const halfLineData = times.map(() => C0 / 2);
-
     charts.pollutant = new Chart(ctx, {
         type: 'line',
         data: {
             labels: times,
             datasets: [
-                {
-                    label: name + ' concentration',
-                    data: concs,
-                    borderColor: '#0d7377',
-                    backgroundColor: 'rgba(13,115,119,0.08)',
-                    fill: true,
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.3
-                },
-                {
-                    label: 'C\u2080 / 2',
-                    data: halfLineData,
-                    borderColor: 'rgba(13,115,119,0.3)',
-                    borderWidth: 1.5,
-                    borderDash: [6,4],
-                    pointRadius: 0,
-                    fill: false
-                },
-                {
-                    label: 'New steady state',
-                    data: times.map(() => Css),
-                    borderColor: 'rgba(184,134,11,0.4)',
-                    borderWidth: 1.5,
-                    borderDash: [4,4],
-                    pointRadius: 0,
-                    fill: false
-                }
+                { label: 'Concentraci\u00f3n de ' + name, data: concs, borderColor: '#0d7377', backgroundColor: 'rgba(13,115,119,0.08)', fill: true, borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
+                { label: 'C\u2080 / 2', data: halfLineData, borderColor: 'rgba(13,115,119,0.3)', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false },
+                { label: 'Nuevo estado estacionario', data: times.map(() => Css), borderColor: 'rgba(184,134,11,0.4)', borderWidth: 1.5, borderDash: [4,4], pointRadius: 0, fill: false }
             ]
         },
-        options: chartOpts('Time (years)', 'Concentration', false)
+        options: chartOpts('Tiempo (a\u00f1os)', 'Concentraci\u00f3n', false)
     });
-
-    document.getElementById('p-status').textContent = 'Done';
+    document.getElementById('p-status').textContent = 'Listo';
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// TAB 2 — CO2 IN A CLASSROOM
+// TAB 2 — CO2 EN UN SALÓN
 // ════════════════════════════════════════════════════════════════════════
-let co2Blocks = [
-    { startH: 9, startM: 0, endH: 9, endM: 50, people: 14 }
-];
+let co2Blocks = [{ startH: 9, startM: 0, endH: 9, endM: 50, people: 14 }];
 
 function renderCO2Schedule() {
     const el = document.getElementById('co2-schedule');
     el.innerHTML = '';
     const grid = document.createElement('div');
     grid.className = 'schedule-grid';
-
     co2Blocks.forEach((b, i) => {
         const block = document.createElement('div');
         block.className = 'schedule-block';
         block.innerHTML = `
-            <label>Block ${i + 1}</label>
+            <label>Bloque ${i + 1}</label>
             <div class="row">
                 <input type="number" value="${b.startH}" min="0" max="23" style="width:48px" onchange="co2Blocks[${i}].startH=+this.value; runCO2()">
                 <span class="sep">:</span>
                 <input type="number" value="${String(b.startM).padStart(2,'0')}" min="0" max="59" step="5" style="width:48px" onchange="co2Blocks[${i}].startM=+this.value; runCO2()">
-                <span class="sep">to</span>
+                <span class="sep">a</span>
                 <input type="number" value="${b.endH}" min="0" max="23" style="width:48px" onchange="co2Blocks[${i}].endH=+this.value; runCO2()">
                 <span class="sep">:</span>
                 <input type="number" value="${String(b.endM).padStart(2,'0')}" min="0" max="59" step="5" style="width:48px" onchange="co2Blocks[${i}].endM=+this.value; runCO2()">
             </div>
             <div class="row">
-                <label style="font-size:0.78em;min-width:50px">People:</label>
+                <label style="font-size:0.78em;min-width:60px">Personas:</label>
                 <input type="number" value="${b.people}" min="0" max="200" step="1" onchange="co2Blocks[${i}].people=+this.value; runCO2()">
-                ${co2Blocks.length > 1 ? `<button class="btn-remove" onclick="co2Blocks.splice(${i},1); renderCO2Schedule(); runCO2()">remove</button>` : ''}
-            </div>
-        `;
+                ${co2Blocks.length > 1 ? `<button class="btn-remove" onclick="co2Blocks.splice(${i},1); renderCO2Schedule(); runCO2()">quitar</button>` : ''}
+            </div>`;
         grid.appendChild(block);
     });
     el.appendChild(grid);
@@ -1047,479 +958,154 @@ function renderCO2Schedule() {
 function addCO2Block() {
     const last = co2Blocks[co2Blocks.length - 1];
     co2Blocks.push({ startH: last.endH, startM: last.endM + 10, endH: last.endH + 1, endM: last.endM, people: last.people });
-    renderCO2Schedule();
-    runCO2();
+    renderCO2Schedule(); runCO2();
 }
 
-function syncCO2K() {
-    const v = parseFloat(document.getElementById('co2-k').value);
-    document.getElementById('co2-k-disp').textContent = v.toFixed(1);
-    document.getElementById('co2-k-num').value = v.toFixed(1);
-    runCO2();
-}
-function syncCO2KFromNum() {
-    const v = parseFloat(document.getElementById('co2-k-num').value);
-    document.getElementById('co2-k').value = v;
-    document.getElementById('co2-k-disp').textContent = v.toFixed(1);
-    runCO2();
-}
+function syncCO2K() { const v = parseFloat(document.getElementById('co2-k').value); document.getElementById('co2-k-disp').textContent = v.toFixed(1); document.getElementById('co2-k-num').value = v.toFixed(1); runCO2(); }
+function syncCO2KFromNum() { const v = parseFloat(document.getElementById('co2-k-num').value); document.getElementById('co2-k').value = v; document.getElementById('co2-k-disp').textContent = v.toFixed(1); runCO2(); }
 
 function runCO2() {
-    const V       = parseFloat(document.getElementById('co2-V').value);
-    const k       = parseFloat(document.getElementById('co2-k-num').value);
-    const Catm    = parseFloat(document.getElementById('co2-Catm').value);
+    const V = parseFloat(document.getElementById('co2-V').value);
+    const k = parseFloat(document.getElementById('co2-k-num').value);
+    const Catm = parseFloat(document.getElementById('co2-Catm').value);
     const perPers = parseFloat(document.getElementById('co2-perPerson').value);
-    const tmax    = parseFloat(document.getElementById('co2-tmax').value);
-
-    // Convert ppm to mg/m³: 1 ppm CO2 ≈ 1.8 mg/m³ at 25°C, 1 atm
+    const tmax = parseFloat(document.getElementById('co2-tmax').value);
     const ppmToMg = 1.8;
     const C0_mg = Catm * ppmToMg;
-
-    // Outdoor air input rate (mg/hr) = k * V * C_atm_mg
     const Rout = k * V * C0_mg;
-
-    // Build schedule: for each time step, how many people?
-    // Determine the earliest start time from blocks
-    let earliestH = 24;
-    co2Blocks.forEach(b => { if (b.startH < earliestH || (b.startH === earliestH && b.startM < 0)) earliestH = b.startH; });
     const simStartHr = Math.max(0, co2Blocks[0].startH + co2Blocks[0].startM / 60 - 0.5);
-
-    const dt = 1/60; // 1-minute steps
-    const times = [];
-    const concs_mg = [];
-    const concs_ppm = [];
-    const peopleTrace = [];
-
+    const dt = 1/60;
+    const times = [], concs_ppm = [], peopleTrace = [];
     let C = C0_mg;
     for (let t = 0; t <= tmax + dt/2; t += dt) {
         const absHr = simStartHr + t;
-        // Determine occupancy
         let n = 0;
-        co2Blocks.forEach(b => {
-            const bStart = b.startH + b.startM / 60;
-            const bEnd   = b.endH   + b.endM / 60;
-            if (absHr >= bStart && absHr < bEnd) n += b.people;
-        });
-
+        co2Blocks.forEach(b => { const bS = b.startH+b.startM/60, bE = b.endH+b.endM/60; if (absHr >= bS && absHr < bE) n += b.people; });
         const Rin = Rout + n * perPers;
-
-        if (t > 0) {
-            C = awesomeStep(C, Rin, k, V, dt);
-        }
-
-        times.push(t);
-        concs_mg.push(C);
-        concs_ppm.push(C / ppmToMg);
-        peopleTrace.push(n);
+        if (t > 0) C = awesomeStep(C, Rin, k, V, dt);
+        times.push(t); concs_ppm.push(C / ppmToMg); peopleTrace.push(n);
     }
-
-    // Metrics
     const peakPPM = Math.max(...concs_ppm);
     const halfLife = Math.LN2 / k;
     const peakPeople = Math.max(...peopleTrace);
-
-    // Steady state when occupied at max
     const RinMax = Rout + peakPeople * perPers;
-    const CssMax_mg = RinMax / (k * V);
-    const CssMax_ppm = CssMax_mg / ppmToMg;
+    const CssMax_ppm = (RinMax / (k * V)) / ppmToMg;
 
     document.getElementById('co2-metrics').innerHTML = `
-        <div class="metric-box metric-amber">
-            <div class="metric-label">Peak CO<sub>2</sub></div>
-            <div class="metric-value">${Math.round(peakPPM)}</div>
-            <div class="metric-sub">ppm</div>
-        </div>
-        <div class="metric-box metric-blue">
-            <div class="metric-label">Steady-state (if occupied)</div>
-            <div class="metric-value">${Math.round(CssMax_ppm)}</div>
-            <div class="metric-sub">ppm</div>
-        </div>
-        <div class="metric-box" style="background:linear-gradient(135deg,#555,#777)">
-            <div class="metric-label">t<sub>1/2</sub> (ventilation)</div>
-            <div class="metric-value">${(halfLife * 60).toFixed(1)}</div>
-            <div class="metric-sub">minutes</div>
-        </div>
-        <div class="metric-box metric-amber">
-            <div class="metric-label">Max occupancy</div>
-            <div class="metric-value">${peakPeople}</div>
-            <div class="metric-sub">persons</div>
-        </div>
+        <div class="metric-box metric-amber"><div class="metric-label">CO<sub>2</sub> m\u00e1ximo</div><div class="metric-value">${Math.round(peakPPM)}</div><div class="metric-sub">ppm</div></div>
+        <div class="metric-box metric-blue"><div class="metric-label">Estado estacionario (ocupado)</div><div class="metric-value">${Math.round(CssMax_ppm)}</div><div class="metric-sub">ppm</div></div>
+        <div class="metric-box" style="background:linear-gradient(135deg,#555,#777)"><div class="metric-label">t<sub>1/2</sub> (ventilaci\u00f3n)</div><div class="metric-value">${(halfLife*60).toFixed(1)}</div><div class="metric-sub">minutos</div></div>
+        <div class="metric-box metric-amber"><div class="metric-label">Ocupaci\u00f3n m\u00e1x.</div><div class="metric-value">${peakPeople}</div><div class="metric-sub">personas</div></div>
     `;
 
-    // Format x-axis labels as clock time
-    const timeLabels = times.map(t => {
-        const absH = simStartHr + t;
-        const h = Math.floor(absH) % 24;
-        const m = Math.round((absH - Math.floor(absH)) * 60);
-        return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
-    });
-
-    // Chart
+    const timeLabels = times.map(t => { const absH = simStartHr+t; const h = Math.floor(absH)%24; const m = Math.round((absH-Math.floor(absH))*60); return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'); });
     const ctx = document.getElementById('chart-co2').getContext('2d');
     if (charts.co2) charts.co2.destroy();
-
     charts.co2 = new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: timeLabels,
-            datasets: [
-                {
-                    label: 'CO\u2082 (ppm)',
-                    data: concs_ppm,
-                    borderColor: '#b8860b',
-                    backgroundColor: 'rgba(184,134,11,0.08)',
-                    fill: true,
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.3,
-                    yAxisID: 'y'
-                },
-                {
-                    label: 'Occupancy',
-                    data: peopleTrace,
-                    borderColor: 'rgba(41,128,185,0.5)',
-                    backgroundColor: 'rgba(41,128,185,0.06)',
-                    fill: true,
-                    borderWidth: 1.5,
-                    pointRadius: 0,
-                    stepped: true,
-                    yAxisID: 'y1'
-                },
-                {
-                    label: '1000 ppm threshold',
-                    data: times.map(() => 1000),
-                    borderColor: 'rgba(192,57,43,0.35)',
-                    borderWidth: 1.5,
-                    borderDash: [6,4],
-                    pointRadius: 0,
-                    fill: false,
-                    yAxisID: 'y'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: {
-                legend: { display: true, position: 'top', labels: { padding: 14, font: { family: 'Lato', size: 12, weight: '300' } } },
-                tooltip: {
-                    callbacks: {
-                        title: ctx => ctx[0].label,
-                        label: ctx => {
-                            if (ctx.datasetIndex === 0) return 'CO\u2082: ' + Math.round(ctx.parsed.y) + ' ppm';
-                            if (ctx.datasetIndex === 1) return 'People: ' + ctx.parsed.y;
-                            return '';
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'CO\u2082 (ppm)', font: { family: 'Lato', weight: '700', size: 12 } },
-                    grid: { color: 'rgba(0,0,0,0.04)' }
-                },
-                y1: {
-                    position: 'right',
-                    beginAtZero: true,
-                    title: { display: true, text: 'Persons in room', font: { family: 'Lato', weight: '700', size: 12 } },
-                    grid: { drawOnChartArea: false }
-                },
-                x: {
-                    title: { display: true, text: 'Time of Day', font: { family: 'Lato', weight: '700', size: 12 } },
-                    ticks: { maxTicksLimit: 16, font: { family: 'Lato', size: 11 } },
-                    grid: { color: 'rgba(0,0,0,0.03)' }
-                }
-            }
+        data: { labels: timeLabels, datasets: [
+            { label: 'CO\u2082 (ppm)', data: concs_ppm, borderColor: '#b8860b', backgroundColor: 'rgba(184,134,11,0.08)', fill: true, borderWidth: 2.5, pointRadius: 0, tension: 0.3, yAxisID: 'y' },
+            { label: 'Ocupaci\u00f3n', data: peopleTrace, borderColor: 'rgba(41,128,185,0.5)', backgroundColor: 'rgba(41,128,185,0.06)', fill: true, borderWidth: 1.5, pointRadius: 0, stepped: true, yAxisID: 'y1' },
+            { label: 'Umbral 1000 ppm', data: times.map(() => 1000), borderColor: 'rgba(192,57,43,0.35)', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false, yAxisID: 'y' }
+        ]},
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+            plugins:{legend:{display:true,position:'top',labels:{padding:14,font:{family:'Lato',size:12,weight:'300'}}},tooltip:{callbacks:{title:ctx=>ctx[0].label,label:ctx=>{if(ctx.datasetIndex===0)return'CO\u2082: '+Math.round(ctx.parsed.y)+' ppm';if(ctx.datasetIndex===1)return'Personas: '+ctx.parsed.y;return'';}}}},
+            scales:{y:{beginAtZero:true,title:{display:true,text:'CO\u2082 (ppm)',font:{family:'Lato',weight:'700',size:12}},grid:{color:'rgba(0,0,0,0.04)'}},y1:{position:'right',beginAtZero:true,title:{display:true,text:'Personas en el sal\u00f3n',font:{family:'Lato',weight:'700',size:12}},grid:{drawOnChartArea:false}},x:{title:{display:true,text:'Hora del D\u00eda',font:{family:'Lato',weight:'700',size:12}},ticks:{maxTicksLimit:16,font:{family:'Lato',size:11}},grid:{color:'rgba(0,0,0,0.03)'}}}
         }
     });
-
-    document.getElementById('co2-status').textContent = 'Done';
+    document.getElementById('co2-status').textContent = 'Listo';
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// TAB 3 — CAFFEINE IN BLOOD PLASMA
+// TAB 3 — CAFEÍNA EN PLASMA
 // ════════════════════════════════════════════════════════════════════════
 let caffeineEvents = [];
+const caffeineItemNames = { '64':'Espresso (1 shot)', '95':'Caf\u00e9 (1 taza)', '47':'T\u00e9 negro', '40':'T\u00e9 verde', '34':'Coca-Cola (355 mL)', '4':'Helado de chocolate', '50':'Helado de matcha' };
 
-const caffeineItemNames = {
-    '64': 'Espresso (1 shot)',
-    '95': 'Coffee (1 cup)',
-    '47': 'Black tea',
-    '40': 'Green tea',
-    '34': 'Coca-Cola (12 oz)',
-    '4':  'Chocolate ice cream',
-    '50': 'Matcha ice cream'
-};
-
-document.getElementById('caf-event-item').addEventListener('change', function() {
-    document.getElementById('caf-custom-field').style.display = this.value === 'custom' ? 'flex' : 'none';
-});
+document.getElementById('caf-event-item').addEventListener('change', function() { document.getElementById('caf-custom-field').style.display = this.value === 'custom' ? 'flex' : 'none'; });
 
 function addCaffeineEvent() {
     const timeStr = document.getElementById('caf-event-time').value;
     const sel = document.getElementById('caf-event-item');
     let mg, itemName;
-    if (sel.value === 'custom') {
-        mg = parseFloat(document.getElementById('caf-custom-mg').value);
-        itemName = 'Custom (' + mg + ' mg)';
-    } else {
-        mg = parseFloat(sel.value);
-        itemName = caffeineItemNames[sel.value] || sel.options[sel.selectedIndex].text;
-    }
+    if (sel.value === 'custom') { mg = parseFloat(document.getElementById('caf-custom-mg').value); itemName = 'Personalizado (' + mg + ' mg)'; }
+    else { mg = parseFloat(sel.value); itemName = caffeineItemNames[sel.value] || sel.options[sel.selectedIndex].text; }
     caffeineEvents.push({ time: timeStr, mg, name: itemName });
     caffeineEvents.sort((a, b) => a.time.localeCompare(b.time));
-    renderCafLog();
-    runCaffeine();
+    renderCafLog(); runCaffeine();
 }
 
-function removeCafEvent(idx) {
-    caffeineEvents.splice(idx, 1);
-    renderCafLog();
-    runCaffeine();
-}
+function removeCafEvent(idx) { caffeineEvents.splice(idx, 1); renderCafLog(); runCaffeine(); }
 
 function renderCafLog() {
     const tbody = document.getElementById('caf-log-body');
-    if (caffeineEvents.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--ink-muted);font-style:italic;">No caffeine events yet. Add items above.</td></tr>';
-        return;
-    }
-    tbody.innerHTML = caffeineEvents.map((e, i) =>
-        `<tr>
-            <td style="font-weight:700">${e.time}</td>
-            <td>${e.name}</td>
-            <td>${e.mg} mg</td>
-            <td><button class="btn-remove" onclick="removeCafEvent(${i})">remove</button></td>
-        </tr>`
-    ).join('');
+    if (caffeineEvents.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--ink-muted);font-style:italic;">A\u00fan no hay consumo de cafe\u00edna. Agrega productos arriba.</td></tr>'; return; }
+    tbody.innerHTML = caffeineEvents.map((e, i) => `<tr><td style="font-weight:700">${e.time}</td><td>${e.name}</td><td>${e.mg} mg</td><td><button class="btn-remove" onclick="removeCafEvent(${i})">quitar</button></td></tr>`).join('');
 }
 
 function loadSampleDay() {
-    caffeineEvents = [
-        { time: '07:00', mg: 95, name: 'Coffee (1 cup)' },
-        { time: '09:00', mg: 47, name: 'Black tea' },
-        { time: '14:00', mg: 95, name: 'Coffee (1 cup)' }
-    ];
-    renderCafLog();
-    runCaffeine();
+    caffeineEvents = [{ time:'07:00', mg:95, name:'Caf\u00e9 (1 taza)' }, { time:'09:00', mg:47, name:'T\u00e9 negro' }, { time:'14:00', mg:95, name:'Caf\u00e9 (1 taza)' }];
+    renderCafLog(); runCaffeine();
 }
 
-function syncCafHL() {
-    const v = parseFloat(document.getElementById('caf-halflife').value);
-    document.getElementById('caf-hl-disp').textContent = v.toFixed(1) + ' h';
-    document.getElementById('caf-hl-num').value = v.toFixed(1);
-    runCaffeine();
-}
-function syncCafHLFromNum() {
-    const v = parseFloat(document.getElementById('caf-hl-num').value);
-    document.getElementById('caf-halflife').value = v;
-    document.getElementById('caf-hl-disp').textContent = v.toFixed(1) + ' h';
-    runCaffeine();
-}
-
-function updateCafParams() {
-    // Recalculate V
-    const wt = parseFloat(document.getElementById('caf-weight').value);
-    // V = 0.7 * wt   (displayed in metrics)
-}
+function syncCafHL() { const v = parseFloat(document.getElementById('caf-halflife').value); document.getElementById('caf-hl-disp').textContent = v.toFixed(1)+' h'; document.getElementById('caf-hl-num').value = v.toFixed(1); runCaffeine(); }
+function syncCafHLFromNum() { const v = parseFloat(document.getElementById('caf-hl-num').value); document.getElementById('caf-halflife').value = v; document.getElementById('caf-hl-disp').textContent = v.toFixed(1)+' h'; runCaffeine(); }
+function updateCafParams() { }
 
 function runCaffeine() {
-    const wt   = parseFloat(document.getElementById('caf-weight').value);
-    const hl   = parseFloat(document.getElementById('caf-hl-num').value);
-    const C0   = parseFloat(document.getElementById('caf-C0').value);
+    const wt = parseFloat(document.getElementById('caf-weight').value);
+    const hl = parseFloat(document.getElementById('caf-hl-num').value);
+    const C0 = parseFloat(document.getElementById('caf-C0').value);
     const startHr = parseInt(document.getElementById('caf-starthr').value);
-
-    const V = 0.7 * wt;  // L
+    const V = 0.7 * wt;
     const k = Math.LN2 / hl;
-
-    // Build 24h timeline from startHr, dt = 1 min = 1/60 hr
-    const dt = 1 / 60;
+    const dt = 1/60;
     const totalHrs = 24;
-
-    // Build input schedule: each event → 30-min input window
-    // R_in = mg absorbed / 0.5 hr = caffeine_mg / 0.5  (mg/hr)
-    // absorption window = event_time to event_time + 0.5 hr
-    const inputWindows = caffeineEvents.map(e => {
-        const [h, m] = e.time.split(':').map(Number);
-        const eventHr = h + m / 60;
-        const relStart = eventHr - startHr; // relative to sim start
-        return {
-            start: relStart,
-            end: relStart + 0.5,
-            Rin: e.mg / 0.5  // mg/hr
-        };
-    });
-
-    const times = [];
-    const concs = [];
+    const inputWindows = caffeineEvents.map(e => { const [h,m] = e.time.split(':').map(Number); return { start: h+m/60-startHr, end: h+m/60-startHr+0.5, Rin: e.mg/0.5 }; });
+    const times = [], concs = [];
     let C = C0;
-
-    for (let t = 0; t <= totalHrs + dt/2; t += dt) {
-        // Sum all active inputs
+    for (let t = 0; t <= totalHrs+dt/2; t += dt) {
         let Rin = 0;
-        inputWindows.forEach(w => {
-            if (t >= w.start && t < w.end) Rin += w.Rin;
-        });
-
-        if (t > 0) {
-            C = awesomeStep(C, Rin, k, V, dt);
-        }
-        times.push(t);
-        concs.push(Math.max(0, C));
+        inputWindows.forEach(w => { if (t >= w.start && t < w.end) Rin += w.Rin; });
+        if (t > 0) C = awesomeStep(C, Rin, k, V, dt);
+        times.push(t); concs.push(Math.max(0, C));
     }
-
-    // Metrics
     const peakC = Math.max(...concs);
-    const totalMg = caffeineEvents.reduce((s, e) => s + e.mg, 0);
-
-    // Time above 0.8 threshold
+    const totalMg = caffeineEvents.reduce((s,e) => s+e.mg, 0);
     let timeAbove = 0;
     concs.forEach(c => { if (c > 0.8) timeAbove += dt; });
 
-    // When does it drop below 0.8 for the last time?
-    let lastAboveHr = null;
-    for (let i = concs.length - 1; i >= 0; i--) {
-        if (concs[i] >= 0.8) { lastAboveHr = startHr + times[i]; break; }
-    }
-
     document.getElementById('caf-metrics').innerHTML = `
-        <div class="metric-box metric-rose">
-            <div class="metric-label">Peak plasma caffeine</div>
-            <div class="metric-value">${peakC.toFixed(2)}</div>
-            <div class="metric-sub">mg/L</div>
-        </div>
-        <div class="metric-box metric-blue">
-            <div class="metric-label">Total caffeine today</div>
-            <div class="metric-value">${totalMg}</div>
-            <div class="metric-sub">mg</div>
-        </div>
-        <div class="metric-box" style="background:linear-gradient(135deg,#555,#777)">
-            <div class="metric-label">Volume of distribution</div>
-            <div class="metric-value">${V.toFixed(0)}</div>
-            <div class="metric-sub">L (0.7 L/kg x ${wt} kg)</div>
-        </div>
-        <div class="metric-box metric-rose">
-            <div class="metric-label">Time above sleep threshold</div>
-            <div class="metric-value">${timeAbove.toFixed(1)}</div>
-            <div class="metric-sub">hours above 0.8 mg/L</div>
-        </div>
+        <div class="metric-box metric-rose"><div class="metric-label">Pico de cafe\u00edna plasm\u00e1tica</div><div class="metric-value">${peakC.toFixed(2)}</div><div class="metric-sub">mg/L</div></div>
+        <div class="metric-box metric-blue"><div class="metric-label">Cafe\u00edna total hoy</div><div class="metric-value">${totalMg}</div><div class="metric-sub">mg</div></div>
+        <div class="metric-box" style="background:linear-gradient(135deg,#555,#777)"><div class="metric-label">Volumen de distribuci\u00f3n</div><div class="metric-value">${V.toFixed(0)}</div><div class="metric-sub">L (0.7 L/kg x ${wt} kg)</div></div>
+        <div class="metric-box metric-rose"><div class="metric-label">Tiempo sobre umbral de sue\u00f1o</div><div class="metric-value">${timeAbove.toFixed(1)}</div><div class="metric-sub">horas sobre 0.8 mg/L</div></div>
     `;
 
-    // X-axis labels as clock times
-    const timeLabels = times.map(t => {
-        const absH = startHr + t;
-        const h = Math.floor(absH) % 24;
-        const m = Math.round((absH - Math.floor(absH)) * 60);
-        return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
-    });
-
-    // Event annotations for chart
-    const eventMarkers = caffeineEvents.map(e => {
-        const [h, m] = e.time.split(':').map(Number);
-        const rel = (h + m/60) - startHr;
-        const idx = Math.round(rel / dt);
-        return { idx: Math.max(0, Math.min(idx, concs.length - 1)), label: e.name, mg: e.mg };
-    });
-
-    // Chart
+    const timeLabels = times.map(t => { const absH = startHr+t; const h = Math.floor(absH)%24; const m = Math.round((absH-Math.floor(absH))*60); return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'); });
     const ctx = document.getElementById('chart-caffeine').getContext('2d');
     if (charts.caffeine) charts.caffeine.destroy();
-
     charts.caffeine = new Chart(ctx, {
         type: 'line',
-        data: {
-            labels: timeLabels,
-            datasets: [
-                {
-                    label: 'Plasma caffeine (mg/L)',
-                    data: concs,
-                    borderColor: '#9b2335',
-                    backgroundColor: 'rgba(155,35,53,0.08)',
-                    fill: true,
-                    borderWidth: 2.5,
-                    pointRadius: 0,
-                    tension: 0.3
-                },
-                {
-                    label: 'Sleep disruption threshold (0.8 mg/L)',
-                    data: times.map(() => 0.8),
-                    borderColor: 'rgba(155,35,53,0.3)',
-                    borderWidth: 1.5,
-                    borderDash: [6, 4],
-                    pointRadius: 0,
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
-            plugins: {
-                legend: { display: true, position: 'top', labels: { padding: 14, font: { family: 'Lato', size: 12, weight: '300' } } },
-                tooltip: {
-                    callbacks: {
-                        title: ctx => ctx[0].label,
-                        label: ctx => {
-                            if (ctx.datasetIndex === 0) return 'Caffeine: ' + ctx.parsed.y.toFixed(3) + ' mg/L';
-                            return '';
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: { display: true, text: 'Plasma Caffeine (mg/L)', font: { family: 'Lato', weight: '700', size: 12 } },
-                    grid: { color: 'rgba(0,0,0,0.04)' }
-                },
-                x: {
-                    title: { display: true, text: 'Time of Day', font: { family: 'Lato', weight: '700', size: 12 } },
-                    ticks: { maxTicksLimit: 18, font: { family: 'Lato', size: 11 } },
-                    grid: { color: 'rgba(0,0,0,0.03)' }
-                }
-            }
+        data: { labels: timeLabels, datasets: [
+            { label: 'Cafe\u00edna plasm\u00e1tica (mg/L)', data: concs, borderColor: '#9b2335', backgroundColor: 'rgba(155,35,53,0.08)', fill: true, borderWidth: 2.5, pointRadius: 0, tension: 0.3 },
+            { label: 'Umbral de alteraci\u00f3n del sue\u00f1o (0.8 mg/L)', data: times.map(() => 0.8), borderColor: 'rgba(155,35,53,0.3)', borderWidth: 1.5, borderDash: [6,4], pointRadius: 0, fill: false }
+        ]},
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+            plugins:{legend:{display:true,position:'top',labels:{padding:14,font:{family:'Lato',size:12,weight:'300'}}},tooltip:{callbacks:{title:ctx=>ctx[0].label,label:ctx=>{if(ctx.datasetIndex===0)return'Cafe\u00edna: '+ctx.parsed.y.toFixed(3)+' mg/L';return'';}}}},
+            scales:{y:{beginAtZero:true,title:{display:true,text:'Cafe\u00edna Plasm\u00e1tica (mg/L)',font:{family:'Lato',weight:'700',size:12}},grid:{color:'rgba(0,0,0,0.04)'}},x:{title:{display:true,text:'Hora del D\u00eda',font:{family:'Lato',weight:'700',size:12}},ticks:{maxTicksLimit:18,font:{family:'Lato',size:11}},grid:{color:'rgba(0,0,0,0.03)'}}}
         }
     });
-
-    document.getElementById('caf-status').textContent = 'Done';
+    document.getElementById('caf-status').textContent = 'Listo';
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// Shared chart options helper
+// Shared chart options
 // ════════════════════════════════════════════════════════════════════════
 function chartOpts(xLabel, yLabel, beginAtZero = true) {
-    return {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-            legend: { display: true, position: 'top', labels: { padding: 14, font: { family: 'Lato', size: 12, weight: '300' } } },
-            tooltip: { mode: 'index', intersect: false }
-        },
-        scales: {
-            y: {
-                beginAtZero,
-                title: { display: true, text: yLabel, font: { family: 'Lato', weight: '700', size: 12 } },
-                grid: { color: 'rgba(0,0,0,0.04)' },
-                ticks: { font: { family: 'Lato', size: 11 } }
-            },
-            x: {
-                title: { display: true, text: xLabel, font: { family: 'Lato', weight: '700', size: 12 } },
-                ticks: {
-                    maxTicksLimit: 20,
-                    font: { family: 'Lato', size: 11 },
-                    callback: function(value) {
-                        const num = parseFloat(this.getLabelForValue(value));
-                        return (Number.isInteger(num) || Math.abs(num - Math.round(num * 10) / 10) < 0.01)
-                            ? num.toFixed(1) : null;
-                    }
-                },
-                grid: { color: 'rgba(0,0,0,0.03)' }
-            }
-        }
+    return { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false},
+        plugins:{legend:{display:true,position:'top',labels:{padding:14,font:{family:'Lato',size:12,weight:'300'}}},tooltip:{mode:'index',intersect:false}},
+        scales:{y:{beginAtZero,title:{display:true,text:yLabel,font:{family:'Lato',weight:'700',size:12}},grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{family:'Lato',size:11}}},x:{title:{display:true,text:xLabel,font:{family:'Lato',weight:'700',size:12}},ticks:{maxTicksLimit:20,font:{family:'Lato',size:11},callback:function(value){const num=parseFloat(this.getLabelForValue(value));return(Number.isInteger(num)||Math.abs(num-Math.round(num*10)/10)<0.01)?num.toFixed(1):null;}},grid:{color:'rgba(0,0,0,0.03)'}}}
     };
 }
 
