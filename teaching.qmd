@@ -4,7 +4,7 @@ title: "Teaching"
 
 ## Teaching Materials
 
-As a teaching assistant, I have developed interactive tools and educational resources for courses in disease ecology and epidemiology at UC Davis. Below are selected materials available for students and educators.
+As a teaching assistant, I have developed interactive tools and educational resources for courses in disease ecology and epidemiology at UC Davis. Below are selected materials available for students, educators, or general use.
 
 ---
 
@@ -20,7 +20,7 @@ An interactive simulator for compartmental epidemiological models (SIR, SIRS, SE
 - Visual timeline scrubber and population grid
 
 ::: {.callout-tip}
-## Student Access
+## Access
 Access the full simulator here: [Disease Dynamics Explorer](disease-explorer.html){target="_blank"}
 :::
 
@@ -32,9 +32,38 @@ Access the full simulator here: [Disease Dynamics Explorer](disease-explorer.htm
 
 ---
 
+### One-Compartment Model Explorer
+
+An interactive simulator built around the one-compartment pharmacokinetic model with first-order elimination. The tool applies a single governing equation — *C(t) = (R_in / kV)(1 − e^{−kΔt}) + C_prev · e^{−kΔt}* — to three real-world scenarios, illustrating how the same mathematical framework describes pollutant decay in the environment, CO₂ buildup in indoor spaces, and caffeine metabolism in the human body.
+
+**Features:**
+
+- **Pollutant half-life tab:** Model exponential decay of a contaminant in an environmental reservoir (e.g., a lake) after input cessation or reduction, with adjustable volume, initial concentration, removal rate *k*, and new input rate
+- **CO₂ in a classroom tab:** Simulate indoor CO₂ accumulation and ventilation washout with editable occupancy schedule blocks, adjustable air-change rate (ACH), per-person CO₂ emission, and a dual-axis chart showing concentration alongside room occupancy
+- **Caffeine in plasma tab:** Track plasma caffeine over a 24-hour period by logging individual intake events (espresso, coffee, tea, cola, or custom amounts), with 30-minute absorption windows, adjustable body weight and half-life, and a sleep-disruption threshold reference line at 0.8 mg/L
+- Real-time summary metrics for each scenario (half-life, peak concentration, steady-state values, time above threshold)
+- Interactive visualizations with reference and threshold lines
+
+::: {.callout-note}
+## Acknowledgment & Disclaimer
+This tool was originally developed by Dr. Scott Bartell and adapted by me for public interaction. It is intended solely for educational and illustrative purposes and does not constitute medical, clinical, or professional health advice. Users should consult a qualified healthcare provider for any questions regarding caffeine intake, medication dosing, or personal health decisions.
+:::
+
+::: {.callout-tip}
+## Access
+Access the full simulator here: [One-Compartment Model Explorer](one-compartment.html){target="_blank"}
+:::
+
+#### Preview
+
+```{=html}
+<iframe src="one-compartment.html" width="100%" height="700" style="border: 1px solid #ddd; border-radius: 10px;"></iframe>
+```
+
+---
+
 ### Additional Resources
 
 More teaching tools coming soon, including:
-
 
 - R₀ and force of infection interactive exercises
